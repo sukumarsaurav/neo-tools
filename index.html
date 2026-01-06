@@ -1,27 +1,103 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NeoWebTools - 100+ Free Online Tools for Developers, SEO & More</title>
-    <meta name="description" content="Free online tools for developers, SEO professionals, and creatives. Calculate GST, EMI, SIP, generate QR codes, compress images, format JSON, and more. No signup required." />
-    <meta name="keywords" content="free online tools, developer tools, SEO tools, image tools, calculators, JSON formatter, QR generator, image compressor" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://neofreetools.online/" />
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="NeoWebTools - 100+ Free Online Tools" />
-    <meta property="og:description" content="Free online tools for developers, SEO professionals, and creatives. No signup required." />
-    <meta property="og:url" content="https://neofreetools.online/" />
-    <meta property="og:site_name" content="NeoWebTools" />
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="NeoWebTools - 100+ Free Online Tools" />
-    <meta name="twitter:description" content="Free online tools for developers, SEO professionals, and creatives." />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoWebTools - 100+ Free Online Tools for Developers, SEO & More</title>
+  <meta name="description"
+    content="Free online tools for developers, SEO professionals, and creatives. Calculate GST, EMI, SIP, generate QR codes, compress images, format JSON, and more. No signup required." />
+  <meta name="keywords"
+    content="free online tools, developer tools, SEO tools, image tools, calculators, JSON formatter, QR generator, image compressor" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://neofreetools.online/" />
+
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="NeoWebTools - 100+ Free Online Tools" />
+  <meta property="og:description"
+    content="Free online tools for developers, SEO professionals, and creatives. No signup required." />
+  <meta property="og:url" content="https://neofreetools.online/" />
+  <meta property="og:site_name" content="NeoWebTools" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NeoWebTools - 100+ Free Online Tools" />
+  <meta name="twitter:description" content="Free online tools for developers, SEO professionals, and creatives." />
+
+  <!-- Critical CSS - Inlined for instant render -->
+  <style>
+    /* Critical CSS for above-the-fold content */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --yinmn-blue: #485696;
+      --platinum: #e7e7e7;
+      --pumpkin: #fc7a1e;
+      --text-dark: #333;
+      --text-light: #666;
+      --bg-primary: #fff;
+      --bg-secondary: #f8f9fa;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--text-dark);
+      background: var(--bg-primary);
+      -webkit-font-smoothing: antialiased
+    }
+
+    #root {
+      min-height: 100vh
+    }
+
+    /* Loading spinner for lazy components */
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--platinum);
+      border-top-color: var(--yinmn-blue);
+      border-radius: 50%;
+      animation: spin 1s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* Prevent FOUC */
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 60vh;
+      padding: 2rem
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

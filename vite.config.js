@@ -147,4 +147,66 @@ export default defineConfig({
       lastmod: new Date(),
     }),
   ],
+  build: {
+    // Enable CSS code splitting for route-based loading
+    cssCodeSplit: true,
+    // Set chunk size warning limit (in KB)
+    chunkSizeWarningLimit: 200,
+    // Rollup options for manual chunk splitting
+    rollupOptions: {
+      output: {
+        // Manual chunks for vendor libraries
+        manualChunks: {
+          // Core React bundle - loaded on every page
+          'vendor-react': ['react', 'react-dom'],
+          // Router - loaded on every page
+          'vendor-router': ['react-router-dom'],
+          // Helmet - for SEO
+          'vendor-helmet': ['react-helmet-async'],
+          // Heavy libraries - only loaded when needed
+          'vendor-pdf': ['jspdf', 'html2canvas'],
+          'vendor-qr': ['qrcode'],
+          'vendor-zip': ['jszip'],
+          'vendor-yaml': ['js-yaml'],
+          'vendor-xml': ['fast-xml-parser'],
+          'vendor-csv': ['papaparse'],
+          'vendor-sql': ['sql-formatter'],
+          'vendor-diff': ['diff'],
+          'vendor-cron': ['cronstrue'],
+          'vendor-terser': ['terser'],
+        },
+        // Optimize chunk file names
+        chunkFileNames: (chunkInfo) => {
+          // Vendor chunks get a stable name for better caching
+          if (chunkInfo.name.startsWith('vendor-')) {
+            return 'assets/[name]-[hash].js';
+          }
+          // Tool chunks are named by their tool category
+          return 'assets/[name]-[hash].js';
+        },
+        // Asset file names for CSS
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name?.endsWith('.css')) {
+            return 'assets/[name]-[hash].css';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
+      },
+    },
+    // Target modern browsers for smaller bundle size
+    target: 'es2020',
+    // Enable minification with terser for better compression
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        // Remove console.log in production
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+  },
+  // Optimize dependencies
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+  },
 })

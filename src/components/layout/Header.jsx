@@ -341,7 +341,7 @@ const Header = () => {
         }
 
         .logo-accent {
-          color: var(--pumpkin);
+          color: #d65a00; /* Darker orange for better contrast - WCAG AA compliant */
         }
 
         .nav-desktop {
@@ -664,8 +664,8 @@ const Header = () => {
 
         .drawer-section-title {
           font-size: var(--text-xs);
-          font-weight: 600;
-          color: var(--text-muted);
+          font-weight: 700;
+          color: #555555; /* Darker color for WCAG AA compliance */
           text-transform: uppercase;
           letter-spacing: 0.08em;
           padding: var(--spacing-sm) var(--spacing-lg);
@@ -704,16 +704,21 @@ const Header = () => {
         .drawer-expand-btn {
           background: none;
           border: none;
-          padding: var(--spacing-sm);
+          min-width: 44px;
+          min-height: 44px;
+          padding: var(--spacing-md);
           cursor: pointer;
-          color: var(--text-muted);
+          color: #555555; /* Darker color for WCAG AA compliance */
           transition: transform var(--transition);
-          font-size: var(--text-sm);
+          font-size: var(--text-base);
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .drawer-expand-btn.expanded {
           transform: rotate(180deg);
-          color: var(--pumpkin);
+          color: #d65a00; /* Darker orange for contrast */
         }
 
         .drawer-tools {
@@ -763,13 +768,14 @@ const Header = () => {
         }
 
         .drawer-footer-links a {
-          color: var(--text-muted);
+          color: #444444; /* Darker color for WCAG AA compliance */
           text-decoration: none;
           font-size: var(--text-sm);
+          font-weight: 500;
         }
 
         .drawer-footer-links a:hover {
-          color: var(--pumpkin);
+          color: #d65a00; /* Darker orange for contrast */
         }
 
         .drawer-theme-toggle {

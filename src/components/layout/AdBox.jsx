@@ -97,11 +97,12 @@ const adStyles = `
 
     .ad-label {
       display: block;
-      font-size: 10px;
-      color: var(--text-muted);
+      font-size: 11px;
+      color: #666666; /* Darker color for WCAG AA compliance */
       text-transform: uppercase;
       letter-spacing: 0.1em;
       margin-bottom: 8px;
+      font-weight: 600;
     }
 
     .ad-placeholder {

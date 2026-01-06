@@ -311,8 +311,8 @@ const Home = () => {
 
         .category-count {
           font-size: var(--text-sm);
-          color: var(--accent-color);
-          font-weight: 500;
+          color: #555555; /* Darker color for WCAG AA compliance instead of accent-color */
+          font-weight: 600;
         }
 
         .popular-section {

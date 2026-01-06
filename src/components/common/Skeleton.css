@@ -1,0 +1,145 @@
+/* ==========================================
+   Skeleton Loading Component Styles
+   ========================================== */
+
+.skeleton {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+}
+
+/* Variants */
+.skeleton-text {
+    border-radius: var(--radius-sm);
+    transform: scale(1, 0.8);
+}
+
+.skeleton-circular {
+    border-radius: 50%;
+}
+
+.skeleton-rectangular {
+    border-radius: var(--radius);
+}
+
+/* Pulse Animation */
+.skeleton-pulse {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Wave Animation */
+.skeleton-wave {
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-wave::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent);
+    animation: skeleton-wave 1.5s infinite;
+}
+
+@keyframes skeleton-wave {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Dark mode wave */
+[data-theme="dark"] .skeleton-wave::after {
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent);
+}
+
+/* No Animation */
+.skeleton-none {
+    animation: none;
+}
+
+/* Skeleton Group */
+.skeleton-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Pre-configured Skeletons */
+
+/* Tool Card Skeleton */
+.skeleton-tool-card {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.skeleton-tool-card .skeleton-icon {
+    border-radius: var(--radius);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Image Preview Skeleton */
+.skeleton-image-preview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.skeleton-image-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+/* Property Panel Skeleton */
+.skeleton-property-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.skeleton-property-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .skeleton-pulse,
+    .skeleton-wave::after {
+        animation: none;
+    }
+
+    .skeleton-pulse {
+        opacity: 0.7;
+    }
+}

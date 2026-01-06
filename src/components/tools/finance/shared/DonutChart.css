@@ -1,0 +1,156 @@
+.donut-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin: var(--spacing-lg) auto;
+}
+
+.donut-chart-svg {
+    transform: rotate(-90deg);
+}
+
+.donut-background {
+    opacity: 0.3;
+}
+
+.donut-segment {
+    transform-origin: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.donut-chart-container.visible .donut-segment {
+    opacity: 1;
+    animation: donutSegmentDraw 1s ease-out forwards;
+}
+
+@keyframes donutSegmentDraw {
+    from {
+        stroke-dashoffset: 1000;
+        opacity: 0;
+    }
+
+    to {
+        stroke-dashoffset: var(--target-offset);
+        opacity: 1;
+    }
+}
+
+.donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 20px));
+    /* Offset for legend space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+}
+
+.donut-center-value {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
+}
+
+.donut-center-label {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-top: var(--spacing-xs);
+}
+
+.donut-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-sm);
+}
+
+.donut-legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--text-sm);
+}
+
+.donut-legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.donut-legend-label {
+    color: var(--text-muted);
+}
+
+.donut-legend-value {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-left: var(--spacing-xs);
+}
+
+/* Hover effect for segments */
+.donut-segment {
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.donut-segment:hover {
+    filter: brightness(1.1);
+}
+
+/* Animation delay for staggered effect */
+.donut-segment:nth-child(2) {
+    animation-delay: 0s;
+}
+
+.donut-segment:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.donut-segment:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.donut-segment:nth-child(5) {
+    animation-delay: 0.45s;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .donut-center-value {
+        color: var(--text-light, #f0f0f0);
+    }
+
+    .donut-legend-value {
+        color: var(--text-light, #f0f0f0);
+    }
+
+    .donut-background {
+        stroke: var(--bg-tertiary, #2d2d44);
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+    .donut-chart-container {
+        transform: scale(0.9);
+    }
+
+    .donut-legend {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .donut-center-value {
+        font-size: var(--text-xl);
+    }
+}

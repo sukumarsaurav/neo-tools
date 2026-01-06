@@ -1,0 +1,186 @@
+.drag-drop-upload {
+    width: 100%;
+}
+
+.drag-drop-input {
+    display: none;
+}
+
+.drag-drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    border: 3px dashed var(--platinum, #E5E4E2);
+    border-radius: var(--radius-lg, 12px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--bg-secondary, #f8f9fa);
+    position: relative;
+    overflow: hidden;
+}
+
+.drag-drop-zone:hover:not(.disabled) {
+    border-color: var(--yinmn-blue, #485696);
+    background: rgba(72, 86, 150, 0.05);
+}
+
+.drag-drop-zone:focus-visible {
+    outline: 2px solid var(--yinmn-blue, #485696);
+    outline-offset: 2px;
+}
+
+.drag-drop-zone.dragging {
+    border-color: var(--yinmn-blue, #485696);
+    background: rgba(72, 86, 150, 0.1);
+    border-style: solid;
+}
+
+.drag-drop-zone.has-image {
+    border-style: solid;
+    padding: 0;
+}
+
+.drag-drop-zone.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.drag-drop-zone.has-error {
+    border-color: var(--error, #dc3545);
+}
+
+/* Placeholder State */
+.drag-drop-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm, 8px);
+    padding: var(--spacing-lg, 24px);
+    text-align: center;
+}
+
+.upload-icon {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.upload-label {
+    font-size: var(--text-base, 16px);
+    font-weight: 500;
+    color: var(--text-primary, #1a1a2e);
+}
+
+.upload-hint {
+    font-size: var(--text-sm, 14px);
+    color: var(--text-muted, #6c757d);
+}
+
+/* Preview State */
+.drag-drop-preview {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md, 16px);
+}
+
+.drag-drop-preview img {
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: var(--radius, 8px);
+}
+
+.preview-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.drag-drop-preview:hover .preview-overlay {
+    opacity: 1;
+}
+
+.file-name {
+    font-size: var(--text-sm, 14px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 40px);
+}
+
+.clear-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.clear-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Loading State */
+.drag-drop-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md, 16px);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--platinum, #E5E4E2);
+    border-top-color: var(--yinmn-blue, #485696);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Drag Overlay */
+.drag-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(72, 86, 150, 0.9);
+    color: white;
+    font-size: var(--text-lg, 18px);
+    font-weight: 600;
+}
+
+/* Error Message */
+.drag-drop-error {
+    margin-top: var(--spacing-sm, 8px);
+    padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
+    background: rgba(220, 53, 69, 0.1);
+    border-radius: var(--radius, 8px);
+    color: var(--error, #dc3545);
+    font-size: var(--text-sm, 14px);
+    text-align: center;
+}

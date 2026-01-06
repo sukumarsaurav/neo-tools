@@ -1,0 +1,984 @@
+{
+  "categories": [
+    {
+      "id": "finance",
+      "name": "Financial & Business",
+      "icon": "💰",
+      "description": "Calculate GST, EMI, SIP, FD and more financial metrics",
+      "color": "#485696"
+    },
+    {
+      "id": "typing",
+      "name": "Typing & Education",
+      "icon": "⌨️",
+      "description": "Test your typing speed, practice, and educational calculators",
+      "color": "#fc7a1e"
+    },
+    {
+      "id": "seo",
+      "name": "SEO & Webmaster",
+      "icon": "🔍",
+      "description": "Generate meta tags, sitemaps, schema markup for better SEO",
+      "color": "#28a745"
+    },
+    {
+      "id": "image",
+      "name": "Image & Design",
+      "icon": "🎨",
+      "description": "Create QR codes, favicons, color palettes and more",
+      "color": "#9c27b0"
+    },
+    {
+      "id": "text",
+      "name": "Text & Content",
+      "icon": "📝",
+      "description": "Count words, convert text, generate passwords and more",
+      "color": "#f9c784"
+    },
+    {
+      "id": "developer",
+      "name": "Developer & Utility",
+      "icon": "⚙️",
+      "description": "JSON formatter, encoders, converters for developers",
+      "color": "#17a2b8"
+    }
+  ],
+  "tools": [
+    {
+      "id": "gst-calculator",
+      "name": "GST Calculator",
+      "description": "Calculate GST amount and total price with ease",
+      "category": "finance",
+      "icon": "🧾",
+      "path": "/tools/finance/gst-calculator",
+      "popular": true
+    },
+    {
+      "id": "gst-invoice-generator",
+      "name": "GST Invoice Generator",
+      "description": "Generate professional GST invoices in PDF format",
+      "category": "finance",
+      "icon": "📄",
+      "path": "/tools/finance/gst-invoice-generator",
+      "popular": true
+    },
+    {
+      "id": "emi-calculator",
+      "name": "Loan / EMI Calculator",
+      "description": "Calculate monthly EMI for home, car, or personal loans",
+      "category": "finance",
+      "icon": "🏦",
+      "path": "/tools/finance/emi-calculator",
+      "popular": true
+    },
+    {
+      "id": "sip-calculator",
+      "name": "SIP Calculator",
+      "description": "Plan your Systematic Investment Plan returns",
+      "category": "finance",
+      "icon": "📈",
+      "path": "/tools/finance/sip-calculator",
+      "popular": true
+    },
+    {
+      "id": "fd-calculator",
+      "name": "FD Calculator",
+      "description": "Calculate Fixed Deposit maturity amount and interest",
+      "category": "finance",
+      "icon": "🏧",
+      "path": "/tools/finance/fd-calculator",
+      "popular": false
+    },
+    {
+      "id": "interest-calculator",
+      "name": "Simple & Compound Interest Calculator",
+      "description": "Calculate simple and compound interest on investments",
+      "category": "finance",
+      "icon": "💹",
+      "path": "/tools/finance/interest-calculator",
+      "popular": false
+    },
+    {
+      "id": "discount-calculator",
+      "name": "Discount Calculator",
+      "description": "Calculate discount percentage and final price",
+      "category": "finance",
+      "icon": "🏷️",
+      "path": "/tools/finance/discount-calculator",
+      "popular": false
+    },
+    {
+      "id": "tax-estimator",
+      "name": "Salary / Income Tax Estimator",
+      "description": "Estimate your income tax liability",
+      "category": "finance",
+      "icon": "📋",
+      "path": "/tools/finance/tax-estimator",
+      "popular": true
+    },
+    {
+      "id": "inflation-calculator",
+      "name": "Inflation Calculator",
+      "description": "Calculate the impact of inflation on your money",
+      "category": "finance",
+      "icon": "📊",
+      "path": "/tools/finance/inflation-calculator",
+      "popular": false
+    },
+    {
+      "id": "roi-calculator",
+      "name": "ROI Calculator",
+      "description": "Calculate Return on Investment for your projects",
+      "category": "finance",
+      "icon": "💎",
+      "path": "/tools/finance/roi-calculator",
+      "popular": false
+    },
+    {
+      "id": "currency-converter",
+      "name": "Currency Converter",
+      "description": "Convert between world currencies with live rates",
+      "category": "finance",
+      "icon": "💱",
+      "path": "/tools/finance/currency-converter",
+      "popular": true
+    },
+    {
+      "id": "margin-calculator",
+      "name": "Margin & Markup Calculator",
+      "description": "Calculate profit margin and markup percentage",
+      "category": "finance",
+      "icon": "📐",
+      "path": "/tools/finance/margin-calculator",
+      "popular": false
+    },
+    {
+      "id": "typing-test",
+      "name": "Typing Speed Test",
+      "description": "Test your typing speed and accuracy",
+      "category": "typing",
+      "icon": "⌨️",
+      "path": "/tools/typing/typing-test",
+      "popular": true
+    },
+    {
+      "id": "numpad-test",
+      "name": "10-Key Numpad Practice",
+      "description": "Practice your numeric keypad typing skills",
+      "category": "typing",
+      "icon": "🔢",
+      "path": "/tools/typing/numpad-test",
+      "popular": false
+    },
+    {
+      "id": "blind-typing",
+      "name": "Blind Typing Practice",
+      "description": "Learn to type without looking at keyboard",
+      "category": "typing",
+      "icon": "👁️",
+      "path": "/tools/typing/blind-typing",
+      "popular": false
+    },
+    {
+      "id": "reaction-test",
+      "name": "Reaction Time Tester",
+      "description": "Test your reaction time and reflexes",
+      "category": "typing",
+      "icon": "⚡",
+      "path": "/tools/typing/reaction-test",
+      "popular": true
+    },
+    {
+      "id": "multiplication-table",
+      "name": "Multiplication Table Generator",
+      "description": "Generate multiplication tables for any number",
+      "category": "typing",
+      "icon": "✖️",
+      "path": "/tools/typing/multiplication-table",
+      "popular": false
+    },
+    {
+      "id": "percentage-calculator",
+      "name": "Percentage Calculator",
+      "description": "Calculate percentages quickly and easily",
+      "category": "typing",
+      "icon": "%",
+      "path": "/tools/typing/percentage-calculator",
+      "popular": true
+    },
+    {
+      "id": "gpa-calculator",
+      "name": "GPA Calculator",
+      "description": "Calculate your Grade Point Average",
+      "category": "typing",
+      "icon": "🎓",
+      "path": "/tools/typing/gpa-calculator",
+      "popular": false
+    },
+    {
+      "id": "age-calculator",
+      "name": "Age Calculator",
+      "description": "Calculate exact age in years, months, and days",
+      "category": "typing",
+      "icon": "🎂",
+      "path": "/tools/typing/age-calculator",
+      "popular": true
+    },
+    {
+      "id": "meta-tag-generator",
+      "name": "Meta Tag Generator",
+      "description": "Generate meta tags for better SEO",
+      "category": "seo",
+      "icon": "🏷️",
+      "path": "/tools/seo/meta-tag-generator",
+      "popular": true
+    },
+    {
+      "id": "robots-txt-generator",
+      "name": "Robots.txt Generator",
+      "description": "Create robots.txt file for search engines",
+      "category": "seo",
+      "icon": "🤖",
+      "path": "/tools/seo/robots-txt-generator",
+      "popular": false
+    },
+    {
+      "id": "sitemap-generator",
+      "name": "XML Sitemap Generator",
+      "description": "Generate XML sitemaps for your website",
+      "category": "seo",
+      "icon": "🗺️",
+      "path": "/tools/seo/sitemap-generator",
+      "popular": true
+    },
+    {
+      "id": "schema-generator",
+      "name": "Schema Markup Generator",
+      "description": "Generate JSON-LD structured data for SEO",
+      "category": "seo",
+      "icon": "📊",
+      "path": "/tools/seo/schema-generator",
+      "popular": true
+    },
+    {
+      "id": "keyword-density",
+      "name": "Keyword Density Checker",
+      "description": "Analyze keyword density in your content",
+      "category": "seo",
+      "icon": "🔑",
+      "path": "/tools/seo/keyword-density",
+      "popular": true
+    },
+    {
+      "id": "serp-preview",
+      "name": "Google SERP Snippet Preview",
+      "description": "Preview how your page appears in Google search",
+      "category": "seo",
+      "icon": "👀",
+      "path": "/tools/seo/serp-preview",
+      "popular": true
+    },
+    {
+      "id": "og-generator",
+      "name": "Open Graph Tag Generator",
+      "description": "Generate Open Graph tags for social sharing",
+      "category": "seo",
+      "icon": "📱",
+      "path": "/tools/seo/og-generator",
+      "popular": false
+    },
+    {
+      "id": "twitter-card-generator",
+      "name": "Twitter Card Generator",
+      "description": "Create Twitter Card meta tags",
+      "category": "seo",
+      "icon": "🐦",
+      "path": "/tools/seo/twitter-card-generator",
+      "popular": false
+    },
+    {
+      "id": "htaccess-generator",
+      "name": "Htaccess Redirect Generator",
+      "description": "Generate htaccess redirect rules",
+      "category": "seo",
+      "icon": "🔄",
+      "path": "/tools/seo/htaccess-generator",
+      "popular": false
+    },
+    {
+      "id": "slug-generator",
+      "name": "URL Slug Generator",
+      "description": "Create SEO-friendly URL slugs",
+      "category": "seo",
+      "icon": "🔗",
+      "path": "/tools/seo/slug-generator",
+      "popular": false
+    },
+    {
+      "id": "broken-link-checker",
+      "name": "Broken Link Checker",
+      "description": "Check for broken links on your website with batch processing",
+      "category": "seo",
+      "icon": "🔍",
+      "path": "/tools/seo/broken-link-checker",
+      "popular": false
+    },
+    {
+      "id": "seo-audit-checklist",
+      "name": "SEO Audit Checklist Generator",
+      "description": "Generate customized SEO audit checklists for your website",
+      "category": "seo",
+      "icon": "📋",
+      "path": "/tools/seo/seo-audit-checklist",
+      "popular": true
+    },
+    {
+      "id": "technical-seo-checklist",
+      "name": "Technical SEO Checklist",
+      "description": "Prioritized technical SEO audit with implementation guides",
+      "category": "seo",
+      "icon": "⚙️",
+      "path": "/tools/seo/technical-seo-checklist",
+      "popular": true
+    },
+    {
+      "id": "content-calendar",
+      "name": "Content Calendar Planner",
+      "description": "Plan your content strategy with a publishing calendar",
+      "category": "seo",
+      "icon": "📅",
+      "path": "/tools/seo/content-calendar",
+      "popular": true
+    },
+    {
+      "id": "content-optimization-scorecard",
+      "name": "Content Optimization Scorecard",
+      "description": "Analyze content and get SEO optimization scores",
+      "category": "seo",
+      "icon": "📊",
+      "path": "/tools/seo/content-optimization-scorecard",
+      "popular": true
+    },
+    {
+      "id": "internal-linking-planner",
+      "name": "Internal Linking Planner",
+      "description": "Plan hub-and-spoke content architecture for SEO",
+      "category": "seo",
+      "icon": "🔗",
+      "path": "/tools/seo/internal-linking-planner",
+      "popular": false
+    },
+    {
+      "id": "local-seo-planner",
+      "name": "Local SEO Planner",
+      "description": "Complete local SEO optimization checklist generator",
+      "category": "seo",
+      "icon": "📍",
+      "path": "/tools/seo/local-seo-planner",
+      "popular": true
+    },
+    {
+      "id": "competitor-analysis-template",
+      "name": "Competitor Analysis Template",
+      "description": "Generate structured SEO competitor analysis frameworks",
+      "category": "seo",
+      "icon": "🎯",
+      "path": "/tools/seo/competitor-analysis-template",
+      "popular": false
+    },
+    {
+      "id": "seo-goal-tracker",
+      "name": "SEO Goal Tracker",
+      "description": "Create SEO KPI tracking templates and dashboards",
+      "category": "seo",
+      "icon": "📈",
+      "path": "/tools/seo/seo-goal-tracker",
+      "popular": false
+    },
+    {
+      "id": "backlink-strategy-planner",
+      "name": "Backlink Strategy Planner",
+      "description": "Create link building roadmaps with outreach templates",
+      "category": "seo",
+      "icon": "🔗",
+      "path": "/tools/seo/backlink-strategy-planner",
+      "popular": false
+    },
+    {
+      "id": "page-speed-checklist",
+      "name": "Page Speed Checklist",
+      "description": "Prioritized page speed optimization with impact ratings",
+      "category": "seo",
+      "icon": "⚡",
+      "path": "/tools/seo/page-speed-checklist",
+      "popular": false
+    },
+    {
+      "id": "favicon-generator",
+      "name": "Favicon Generator",
+      "description": "Create favicons for your website",
+      "category": "image",
+      "icon": "⭐",
+      "path": "/tools/image/favicon-generator",
+      "popular": true
+    },
+    {
+      "id": "qr-generator",
+      "name": "QR Code Generator",
+      "description": "Generate QR codes for URLs, text, and more",
+      "category": "image",
+      "icon": "📱",
+      "path": "/tools/image/qr-generator",
+      "popular": true
+    },
+    {
+      "id": "color-palette",
+      "name": "Color Palette Generator",
+      "description": "Generate beautiful color palettes",
+      "category": "image",
+      "icon": "🎨",
+      "path": "/tools/image/color-palette",
+      "popular": true
+    },
+    {
+      "id": "rgb-to-hex",
+      "name": "RGB to Hex Converter",
+      "description": "Convert RGB colors to hexadecimal",
+      "category": "image",
+      "icon": "🔴",
+      "path": "/tools/image/rgb-to-hex",
+      "popular": false
+    },
+    {
+      "id": "hex-to-rgb",
+      "name": "Hex to RGB Converter",
+      "description": "Convert hexadecimal colors to RGB",
+      "category": "image",
+      "icon": "🟢",
+      "path": "/tools/image/hex-to-rgb",
+      "popular": false
+    },
+    {
+      "id": "gradient-generator",
+      "name": "CSS Gradient Generator",
+      "description": "Create beautiful CSS gradients",
+      "category": "image",
+      "icon": "🌈",
+      "path": "/tools/image/gradient-generator",
+      "popular": true
+    },
+    {
+      "id": "image-to-base64",
+      "name": "Image to Base64 Converter",
+      "description": "Convert images to Base64 encoding",
+      "category": "image",
+      "icon": "🖼️",
+      "path": "/tools/image/image-to-base64",
+      "popular": false
+    },
+    {
+      "id": "base64-to-image",
+      "name": "Base64 to Image Decoder",
+      "description": "Decode Base64 strings to images",
+      "category": "image",
+      "icon": "📷",
+      "path": "/tools/image/base64-to-image",
+      "popular": false
+    },
+    {
+      "id": "image-resizer",
+      "name": "Social Media Image Resizer",
+      "description": "Resize images for social media platforms",
+      "category": "image",
+      "icon": "📐",
+      "path": "/tools/image/image-resizer",
+      "popular": true
+    },
+    {
+      "id": "image-filters",
+      "name": "Image Filter/Effects Tool",
+      "description": "Apply filters and effects to images",
+      "category": "image",
+      "icon": "✨",
+      "path": "/tools/image/image-filters",
+      "popular": false
+    },
+    {
+      "id": "image-compressor",
+      "name": "Image Compressor",
+      "description": "Compress images to reduce file size while maintaining quality",
+      "category": "image",
+      "icon": "🗜️",
+      "path": "/tools/image/image-compressor",
+      "popular": true
+    },
+    {
+      "id": "image-cropper",
+      "name": "Image Cropper",
+      "description": "Crop images with custom aspect ratios and presets",
+      "category": "image",
+      "icon": "✂️",
+      "path": "/tools/image/image-cropper",
+      "popular": true
+    },
+    {
+      "id": "image-format-converter",
+      "name": "Image Format Converter",
+      "description": "Convert images between PNG, JPEG, WebP, GIF, and BMP",
+      "category": "image",
+      "icon": "🔄",
+      "path": "/tools/image/image-format-converter",
+      "popular": true
+    },
+    {
+      "id": "color-converter",
+      "name": "Universal Color Converter",
+      "description": "Convert between HEX, RGB, HSL, and CMYK color formats",
+      "category": "image",
+      "icon": "🎨",
+      "path": "/tools/image/color-converter",
+      "popular": true
+    },
+    {
+      "id": "exam-photo-resizer",
+      "name": "Exam Photo Resizer",
+      "description": "Resize photos for SSC, UPSC, JEE, NEET, Bank exams with exact dimensions and file size",
+      "category": "image",
+      "icon": "📋",
+      "path": "/tools/image/exam-photo-resizer",
+      "popular": true
+    },
+    {
+      "id": "batch-image-resizer",
+      "name": "Batch Image Resizer",
+      "description": "Resize multiple images at once with the same settings. Process up to 50 images.",
+      "category": "image",
+      "icon": "📦",
+      "path": "/tools/image/batch-image-resizer",
+      "popular": true
+    },
+    {
+      "id": "image-watermark",
+      "name": "Image Watermark",
+      "description": "Add text or image watermarks to protect your photos",
+      "category": "image",
+      "icon": "💧",
+      "path": "/tools/image/image-watermark",
+      "popular": true
+    },
+    {
+      "id": "color-picker",
+      "name": "Color Picker from Image",
+      "description": "Extract colors from images with click-to-pick or auto-extract",
+      "category": "image",
+      "icon": "🎯",
+      "path": "/tools/image/color-picker",
+      "popular": true
+    },
+    {
+      "id": "pattern-generator",
+      "name": "Pattern Generator",
+      "description": "Create seamless patterns for backgrounds - stripes, dots, grids, and more",
+      "category": "image",
+      "icon": "🔳",
+      "path": "/tools/image/pattern-generator",
+      "popular": false
+    },
+    {
+      "id": "image-metadata-viewer",
+      "name": "Image Metadata Viewer",
+      "description": "View EXIF data and strip metadata for privacy protection",
+      "category": "image",
+      "icon": "📊",
+      "path": "/tools/image/image-metadata-viewer",
+      "popular": false
+    },
+    {
+      "id": "screenshot-mockup",
+      "name": "Screenshot Mockup Generator",
+      "description": "Create professional device mockups with iPhone, MacBook, browser frames",
+      "category": "image",
+      "icon": "📱",
+      "path": "/tools/image/screenshot-mockup",
+      "popular": true
+    },
+    {
+      "id": "svg-editor",
+      "name": "SVG Editor",
+      "description": "Create and edit vector graphics with shapes, text, layers, and export",
+      "category": "image",
+      "icon": "✏️",
+      "path": "/tools/image/svg-editor",
+      "popular": true
+    },
+    {
+      "id": "svg-background-generator",
+      "name": "SVG Background Generator",
+      "description": "Create beautiful SVG backgrounds with blobs, waves, gradients, low poly, and more patterns.",
+      "category": "image",
+      "icon": "🎨",
+      "path": "/tools/image/svg-background-generator",
+      "popular": true
+    },
+    {
+      "id": "word-counter",
+      "name": "Word & Character Counter",
+      "description": "Count words, characters, sentences in text",
+      "category": "text",
+      "icon": "📝",
+      "path": "/tools/text/word-counter",
+      "popular": true
+    },
+    {
+      "id": "sentence-counter",
+      "name": "Sentence Counter",
+      "description": "Count sentences and paragraphs in text",
+      "category": "text",
+      "icon": "📖",
+      "path": "/tools/text/sentence-counter",
+      "popular": false
+    },
+    {
+      "id": "case-converter",
+      "name": "Case Converter",
+      "description": "Convert text to uppercase, lowercase, title case",
+      "category": "text",
+      "icon": "Aa",
+      "path": "/tools/text/case-converter",
+      "popular": true
+    },
+    {
+      "id": "lorem-ipsum",
+      "name": "Lorem Ipsum Generator",
+      "description": "Generate placeholder text for designs",
+      "category": "text",
+      "icon": "📜",
+      "path": "/tools/text/lorem-ipsum",
+      "popular": true
+    },
+    {
+      "id": "duplicate-remover",
+      "name": "Remove Duplicate Lines",
+      "description": "Remove duplicate lines from text",
+      "category": "text",
+      "icon": "🗑️",
+      "path": "/tools/text/duplicate-remover",
+      "popular": false
+    },
+    {
+      "id": "text-to-binary",
+      "name": "Text to Binary Converter",
+      "description": "Convert text to binary code",
+      "category": "text",
+      "icon": "01",
+      "path": "/tools/text/text-to-binary",
+      "popular": false
+    },
+    {
+      "id": "binary-to-text",
+      "name": "Binary to Text Converter",
+      "description": "Convert binary code to readable text",
+      "category": "text",
+      "icon": "10",
+      "path": "/tools/text/binary-to-text",
+      "popular": false
+    },
+    {
+      "id": "reverse-text",
+      "name": "Reverse Text Generator",
+      "description": "Reverse any text string",
+      "category": "text",
+      "icon": "🔄",
+      "path": "/tools/text/reverse-text",
+      "popular": false
+    },
+    {
+      "id": "upside-down-text",
+      "name": "Upside Down Text Generator",
+      "description": "Flip text upside down",
+      "category": "text",
+      "icon": "🙃",
+      "path": "/tools/text/upside-down-text",
+      "popular": false
+    },
+    {
+      "id": "password-generator",
+      "name": "Random Password Generator",
+      "description": "Generate secure random passwords and passphrases",
+      "category": "text",
+      "icon": "🔒",
+      "path": "/tools/text/password-generator",
+      "popular": true
+    },
+    {
+      "id": "find-replace",
+      "name": "Find and Replace",
+      "description": "Find and replace text with regex support and live matching",
+      "category": "text",
+      "icon": "🔍",
+      "path": "/tools/text/find-replace",
+      "popular": true
+    },
+    {
+      "id": "text-compare",
+      "name": "Text Compare Tool",
+      "description": "Compare two texts and find differences with visual diff",
+      "category": "text",
+      "icon": "⚖️",
+      "path": "/tools/text/text-compare",
+      "popular": true
+    },
+    {
+      "id": "text-slug-generator",
+      "name": "Slug Generator",
+      "description": "Generate SEO-friendly URL slugs from any text",
+      "category": "text",
+      "icon": "🔗",
+      "path": "/tools/text/slug-generator",
+      "popular": true
+    },
+    {
+      "id": "text-formatter",
+      "name": "Text Formatter",
+      "description": "Clean and format text by removing whitespace, HTML, and more",
+      "category": "text",
+      "icon": "🧹",
+      "path": "/tools/text/text-formatter",
+      "popular": true
+    },
+    {
+      "id": "list-sorter",
+      "name": "List Sorter",
+      "description": "Sort lists alphabetically, by length, or randomly",
+      "category": "text",
+      "icon": "📋",
+      "path": "/tools/text/list-sorter",
+      "popular": true
+    },
+    {
+      "id": "number-extractor",
+      "name": "Number & Data Extractor",
+      "description": "Extract numbers, emails, URLs, phones from any text",
+      "category": "text",
+      "icon": "🔢",
+      "path": "/tools/text/number-extractor",
+      "popular": true
+    },
+    {
+      "id": "text-statistics",
+      "name": "Text Statistics",
+      "description": "Comprehensive text analysis with vocabulary density and letter frequency",
+      "category": "text",
+      "icon": "📊",
+      "path": "/tools/text/text-statistics",
+      "popular": true
+    },
+    {
+      "id": "json-formatter",
+      "name": "JSON Formatter / Beautifier",
+      "description": "Format and beautify JSON data",
+      "category": "developer",
+      "icon": "{ }",
+      "path": "/tools/developer/json-formatter",
+      "popular": true
+    },
+    {
+      "id": "html-encoder",
+      "name": "HTML Entity Encoder / Decoder",
+      "description": "Encode and decode HTML entities",
+      "category": "developer",
+      "icon": "<>",
+      "path": "/tools/developer/html-encoder",
+      "popular": false
+    },
+    {
+      "id": "url-encoder",
+      "name": "URL Encoder / Decoder",
+      "description": "Encode and decode URLs",
+      "category": "developer",
+      "icon": "🔗",
+      "path": "/tools/developer/url-encoder",
+      "popular": true
+    },
+    {
+      "id": "timestamp-converter",
+      "name": "UNIX Timestamp Converter",
+      "description": "Convert UNIX timestamps to dates",
+      "category": "developer",
+      "icon": "⏰",
+      "path": "/tools/developer/timestamp-converter",
+      "popular": false
+    },
+    {
+      "id": "stopwatch",
+      "name": "Stopwatch & Timer",
+      "description": "Online stopwatch and countdown timer",
+      "category": "developer",
+      "icon": "⏱️",
+      "path": "/tools/developer/stopwatch",
+      "popular": true
+    },
+    {
+      "id": "jwt-decoder",
+      "name": "JWT Decoder & Validator",
+      "description": "Decode JWT tokens, view header/payload, validate expiry with live countdown",
+      "category": "developer",
+      "icon": "🔓",
+      "path": "/tools/developer/jwt-decoder",
+      "popular": true
+    },
+    {
+      "id": "date-calculator",
+      "name": "Date Difference Calculator",
+      "description": "Calculate difference between two dates",
+      "category": "developer",
+      "icon": "📅",
+      "path": "/tools/developer/date-calculator",
+      "popular": false
+    },
+    {
+      "id": "screen-resolution",
+      "name": "Screen Resolution Checker",
+      "description": "Check your screen resolution and display info",
+      "category": "developer",
+      "icon": "🖥️",
+      "path": "/tools/developer/screen-resolution",
+      "popular": false
+    },
+    {
+      "id": "user-agent",
+      "name": "What Is My User Agent",
+      "description": "View your browser's user agent string",
+      "category": "developer",
+      "icon": "🌐",
+      "path": "/tools/developer/user-agent",
+      "popular": false
+    },
+    {
+      "id": "speed-test",
+      "name": "Internet Speed Test",
+      "description": "Test your internet connection speed",
+      "category": "developer",
+      "icon": "📶",
+      "path": "/tools/developer/speed-test",
+      "popular": true
+    },
+    {
+      "id": "javascript-minifier",
+      "name": "JavaScript Minifier & Beautifier",
+      "description": "Minify or beautify JavaScript code using Terser. Reduce file size for faster loading.",
+      "category": "developer",
+      "icon": "📦",
+      "path": "/tools/developer/javascript-minifier",
+      "popular": true
+    },
+    {
+      "id": "html-minifier",
+      "name": "HTML Minifier & Beautifier",
+      "description": "Minify or beautify HTML code. Remove comments, collapse whitespace, optimize for faster loading.",
+      "category": "developer",
+      "icon": "🗜️",
+      "path": "/tools/developer/html-minifier",
+      "popular": true
+    },
+    {
+      "id": "sql-formatter",
+      "name": "SQL Formatter & Beautifier",
+      "description": "Format and beautify SQL queries. Support for MySQL, PostgreSQL, Oracle, SQL Server and more.",
+      "category": "developer",
+      "icon": "🗃️",
+      "path": "/tools/developer/sql-formatter",
+      "popular": true
+    },
+    {
+      "id": "cron-parser",
+      "name": "Cron Expression Parser",
+      "description": "Parse cron expressions to human-readable format. View next scheduled run times and use common presets.",
+      "category": "developer",
+      "icon": "⏰",
+      "path": "/tools/developer/cron-parser",
+      "popular": true
+    },
+    {
+      "id": "yaml-json-converter",
+      "name": "YAML ↔ JSON Converter",
+      "description": "Convert between YAML and JSON formats. Transform configuration files and data structures.",
+      "category": "developer",
+      "icon": "🔄",
+      "path": "/tools/developer/yaml-json-converter",
+      "popular": true
+    },
+    {
+      "id": "xml-json-converter",
+      "name": "XML ↔ JSON Converter",
+      "description": "Convert between XML and JSON formats. Transform data structures with full attribute support.",
+      "category": "developer",
+      "icon": "📄",
+      "path": "/tools/developer/xml-json-converter",
+      "popular": true
+    },
+    {
+      "id": "csv-json-converter",
+      "name": "CSV ↔ JSON Converter",
+      "description": "Convert between CSV and JSON formats. Transform spreadsheet data and API responses.",
+      "category": "developer",
+      "icon": "📊",
+      "path": "/tools/developer/csv-json-converter",
+      "popular": true
+    },
+    {
+      "id": "diff-checker",
+      "name": "Text Diff Checker",
+      "description": "Compare two texts and find differences. Visualize changes with line, word, or character comparison.",
+      "category": "developer",
+      "icon": "⚖️",
+      "path": "/tools/developer/diff-checker",
+      "popular": true
+    },
+    {
+      "id": "stopwatch",
+      "name": "Stopwatch & Timer",
+      "description": "Online stopwatch with lap times and countdown timer with quick presets.",
+      "category": "developer",
+      "icon": "⏱️",
+      "path": "/tools/developer/stopwatch",
+      "popular": true
+    },
+    {
+      "id": "date-calculator",
+      "name": "Date Difference Calculator",
+      "description": "Calculate days between dates or add/subtract time. Business day support included.",
+      "category": "developer",
+      "icon": "📆",
+      "path": "/tools/developer/date-calculator",
+      "popular": true
+    },
+    {
+      "id": "screen-resolution",
+      "name": "Screen Resolution Checker",
+      "description": "Check your screen resolution, viewport size, and display information.",
+      "category": "developer",
+      "icon": "🖥️",
+      "path": "/tools/developer/screen-resolution",
+      "popular": false
+    },
+    {
+      "id": "user-agent",
+      "name": "What Is My User Agent",
+      "description": "View and parse your browser's user agent string. Detect browser, OS, and device.",
+      "category": "developer",
+      "icon": "🔍",
+      "path": "/tools/developer/user-agent",
+      "popular": false
+    },
+    {
+      "id": "speed-test",
+      "name": "Internet Speed Test",
+      "description": "Test your internet connection speed. Measure download, upload, and latency.",
+      "category": "developer",
+      "icon": "📶",
+      "path": "/tools/developer/speed-test",
+      "popular": true
+    }
+  ]
+}

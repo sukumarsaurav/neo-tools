@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import toolsData from '../../data/tools.json';
 import useDarkMode from '../../hooks/useDarkMode';
+import logoImage from '../../assets/neo-free-tools.png';
 
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -72,8 +73,8 @@ const Header = () => {
             <div className="header-left">
               {/* Logo */}
               <Link to="/" className="logo">
-                <span className="logo-icon">🛠️</span>
-                <span className="logo-text">NeoWeb<span className="logo-accent">Tools</span></span>
+                <img src={logoImage} alt="NeoFreeTools" className="logo-img" />
+                <span className="logo-text">NeoFree<span className="logo-accent">Tools</span></span>
               </Link>
 
               {/* Desktop Navigation - All categories with dropdowns */}
@@ -197,8 +198,8 @@ const Header = () => {
       <div className={`side-drawer ${isDrawerOpen ? 'open' : ''}`}>
         <div className="drawer-header">
           <Link to="/" className="drawer-logo" onClick={() => setIsDrawerOpen(false)}>
-            <span className="logo-icon">🛠️</span>
-            <span className="logo-text">NeoWeb<span className="logo-accent">Tools</span></span>
+            <img src={logoImage} alt="NeoFreeTools" className="logo-img" />
+            <span className="logo-text">NeoFree<span className="logo-accent">Tools</span></span>
           </Link>
           <button
             className="drawer-close"
@@ -332,8 +333,10 @@ const Header = () => {
           white-space: nowrap;
         }
 
-        .logo-icon {
-          font-size: var(--text-2xl);
+        .logo-img {
+          height: 32px;
+          width: auto;
+          object-fit: contain;
         }
 
         .logo-text {

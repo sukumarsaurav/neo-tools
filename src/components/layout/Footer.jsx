@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import toolsData from '../../data/tools.json';
+import logoImage from '../../assets/neo-free-tools.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -13,8 +14,8 @@ const Footer = () => {
           {/* Brand */}
           <div className="footer-brand">
             <Link to="/" className="footer-logo">
-              <span className="logo-icon">🛠️</span>
-              <span className="logo-text">NeoWeb<span className="logo-accent">Tools</span></span>
+              <img src={logoImage} alt="NeoFreeTools" className="footer-logo-img" />
+              <span className="logo-text">NeoFree<span className="logo-accent">Tools</span></span>
             </Link>
             <p className="footer-tagline">
               Free online tools for finance, SEO, development, and more.
@@ -99,8 +100,10 @@ const Footer = () => {
           margin-bottom: var(--spacing-md);
         }
 
-        .footer-logo .logo-icon {
-          font-size: var(--text-2xl);
+        .footer-logo-img {
+          height: 32px;
+          width: auto;
+          object-fit: contain;
         }
 
         .footer-logo .logo-text {

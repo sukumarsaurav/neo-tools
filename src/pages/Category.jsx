@@ -33,7 +33,7 @@ const Category = () => {
         <title>{category.name} Tools - Free Online {category.name} Utilities | NeoWebTools</title>
         <meta name="description" content={`Free online ${category.name.toLowerCase()} tools: ${tools.slice(0, 5).map(t => t.name).join(', ')} and more. No registration required.`} />
         <meta name="keywords" content={`${category.name.toLowerCase()} tools, free online tools, ${tools.slice(0, 5).map(t => t.name.toLowerCase()).join(', ')}`} />
-        <link rel="canonical" href={`https://neowebtools.com/category/${categoryId}`} />
+        <link rel="canonical" href={`https://www.neofreetools.online/category/${categoryId}`} />
 
         <meta property="og:title" content={`${category.name} Tools - NeoWebTools`} />
         <meta property="og:description" content={category.description} />

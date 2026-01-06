@@ -139,7 +139,7 @@ export default defineConfig({
   plugins: [
     react(),
     Sitemap({
-      hostname: 'https://neofreetools.online',
+      hostname: 'https://www.neofreetools.online',
       dynamicRoutes: allRoutes,
       readable: true,
       changefreq: 'weekly',

@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
             <Helmet>
                 <title>Privacy Policy | NeoWebTools</title>
                 <meta name="description" content="Privacy Policy for NeoWebTools. Learn how we collect, use, and protect your information." />
-                <link rel="canonical" href="https://neofreetools.online/privacy" />
+                <link rel="canonical" href="https://www.neofreetools.online/privacy" />
             </Helmet>
             <Header />
             <main className="page-container">

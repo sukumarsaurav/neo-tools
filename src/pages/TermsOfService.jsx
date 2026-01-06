@@ -8,7 +8,7 @@ const TermsOfService = () => {
             <Helmet>
                 <title>Terms of Service | NeoWebTools</title>
                 <meta name="description" content="Terms of Service for NeoWebTools. Read our terms and conditions for using our free online tools." />
-                <link rel="canonical" href="https://neofreetools.online/terms" />
+                <link rel="canonical" href="https://www.neofreetools.online/terms" />
             </Helmet>
             <Header />
             <main className="page-container">

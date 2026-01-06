@@ -17,7 +17,7 @@ const SitemapPage = () => {
             <Helmet>
                 <title>Sitemap | NeoWebTools</title>
                 <meta name="description" content="Browse all 100+ free tools on NeoWebTools. Find calculators, converters, generators, and utilities organized by category." />
-                <link rel="canonical" href="https://neofreetools.online/sitemap" />
+                <link rel="canonical" href="https://www.neofreetools.online/sitemap" />
             </Helmet>
             <Header />
             <main className="page-container">

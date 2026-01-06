@@ -8,7 +8,7 @@ const AboutUs = () => {
             <Helmet>
                 <title>About Us | NeoWebTools</title>
                 <meta name="description" content="Learn about NeoWebTools - free online tools for developers, SEO professionals, and creatives. Our mission is to provide simple, fast, and free utilities." />
-                <link rel="canonical" href="https://neofreetools.online/about" />
+                <link rel="canonical" href="https://www.neofreetools.online/about" />
             </Helmet>
             <Header />
             <main className="page-container">

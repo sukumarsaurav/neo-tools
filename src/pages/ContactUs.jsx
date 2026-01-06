@@ -27,7 +27,7 @@ const ContactUs = () => {
             <Helmet>
                 <title>Contact Us | NeoWebTools</title>
                 <meta name="description" content="Contact NeoWebTools team. Get in touch for support, feedback, or partnership inquiries." />
-                <link rel="canonical" href="https://neofreetools.online/contact" />
+                <link rel="canonical" href="https://www.neofreetools.online/contact" />
             </Helmet>
             <Header />
             <main className="page-container">

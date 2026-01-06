@@ -35,7 +35,7 @@ const Home = () => {
         <title>NeoWebTools - Free Online Tools for Finance, SEO, Developers & More</title>
         <meta name="description" content="Free online tools including GST calculator, EMI calculator, QR code generator, JSON formatter, and 60+ more utilities. No registration required." />
         <meta name="keywords" content="free online tools, GST calculator, EMI calculator, SEO tools, developer tools, QR generator" />
-        <link rel="canonical" href="https://neowebtools.com" />
+        <link rel="canonical" href="https://www.neofreetools.online/" />
 
         <meta property="og:title" content="NeoWebTools - Free Online Tools" />
         <meta property="og:description" content="60+ free online tools for finance, SEO, development, and more." />
@@ -45,11 +45,11 @@ const Home = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "NeoWebTools",
-            "url": "https://neowebtools.com",
+            "name": "NeoFreeTools",
+            "url": "https://www.neofreetools.online",
             "potentialAction": {
               "@type": "SearchAction",
-              "target": "https://neowebtools.com/search?q={search_term_string}",
+              "target": "https://www.neofreetools.online/search?q={search_term_string}",
               "query-input": "required name=search_term_string"
             }
           })}

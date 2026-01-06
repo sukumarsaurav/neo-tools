@@ -1,16 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import toolsData from '../../data/tools.json';
 import useDarkMode from '../../hooks/useDarkMode';
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [expandedCategories, setExpandedCategories] = useState({});
   const location = useLocation();
   const { isDark, toggle } = useDarkMode();
+
+  // Close drawer on route change
+  useEffect(() => {
+    setIsDrawerOpen(false);
+    setExpandedCategories({});
+  }, [location.pathname]);
+
+  // Prevent body scroll when drawer is open
+  useEffect(() => {
+    if (isDrawerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isDrawerOpen]);
 
   const handleSearch = (e) => {
     const query = e.target.value;
@@ -33,169 +52,246 @@ const Header = () => {
     setIsSearchOpen(false);
   };
 
-  // Get tools for a specific category
+  const toggleCategory = (categoryId) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [categoryId]: !prev[categoryId]
+    }));
+  };
+
   const getToolsForCategory = (categoryId) => {
     return toolsData.tools.filter(tool => tool.category === categoryId);
   };
 
   return (
-    <header className="header">
-      <div className="container">
-        <div className="header-content">
-          {/* Left Side: Logo + Navigation */}
-          <div className="header-left">
-            {/* Logo */}
-            <Link to="/" className="logo">
-              <span className="logo-icon">🛠️</span>
-              <span className="logo-text">NeoWeb<span className="logo-accent">Tools</span></span>
-            </Link>
+    <>
+      <header className="header">
+        <div className="container">
+          <div className="header-content">
+            {/* Left Side: Logo + Navigation */}
+            <div className="header-left">
+              {/* Logo */}
+              <Link to="/" className="logo">
+                <span className="logo-icon">🛠️</span>
+                <span className="logo-text">NeoWeb<span className="logo-accent">Tools</span></span>
+              </Link>
 
-            {/* Desktop Navigation - All categories with dropdowns */}
-            <nav className="nav-desktop">
-              {toolsData.categories.map(cat => (
-                <div
-                  key={cat.id}
-                  className="nav-dropdown"
-                  onMouseEnter={() => setActiveDropdown(cat.id)}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <Link
-                    to={`/category/${cat.id}`}
-                    className={location.pathname.includes(cat.id) ? 'active' : ''}
+              {/* Desktop Navigation - All categories with dropdowns */}
+              <nav className="nav-desktop">
+                {toolsData.categories.map(cat => (
+                  <div
+                    key={cat.id}
+                    className="nav-dropdown"
+                    onMouseEnter={() => setActiveDropdown(cat.id)}
+                    onMouseLeave={() => setActiveDropdown(null)}
                   >
-                    <span className="nav-label">{cat.name}</span>
-                    <span className={`nav-arrow ${activeDropdown === cat.id ? 'open' : ''}`}>▾</span>
-                  </Link>
-                  {activeDropdown === cat.id && (
-                    <div className="dropdown-menu">
-                      <div className="dropdown-header">
-                        {cat.name}
+                    <Link
+                      to={`/category/${cat.id}`}
+                      className={location.pathname.includes(cat.id) ? 'active' : ''}
+                    >
+                      <span className="nav-label">{cat.name}</span>
+                      <span className={`nav-arrow ${activeDropdown === cat.id ? 'open' : ''}`}>▾</span>
+                    </Link>
+                    {activeDropdown === cat.id && (
+                      <div className="dropdown-menu">
+                        <div className="dropdown-header">
+                          {cat.name}
+                        </div>
+                        <div className="dropdown-tools">
+                          {getToolsForCategory(cat.id).slice(0, 8).map(tool => (
+                            <Link
+                              key={tool.id}
+                              to={tool.path}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              {tool.name}
+                            </Link>
+                          ))}
+                        </div>
+                        <Link
+                          to={`/category/${cat.id}`}
+                          className="dropdown-view-all"
+                          onClick={() => setActiveDropdown(null)}
+                        >
+                          View all {cat.name} tools →
+                        </Link>
                       </div>
-                      <div className="dropdown-tools">
-                        {getToolsForCategory(cat.id).slice(0, 8).map(tool => (
+                    )}
+                  </div>
+                ))}
+              </nav>
+            </div>
+
+            {/* Right Side: Dark Mode Toggle + Search Icon */}
+            <div className="header-right">
+              <button
+                className="theme-toggle-btn"
+                onClick={toggle}
+                aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {isDark ? '☀️' : '🌙'}
+              </button>
+              <div className="header-search">
+                <button
+                  className="search-toggle-btn"
+                  onClick={() => setIsSearchOpen(!isSearchOpen)}
+                  aria-label="Toggle search"
+                >
+                  🔍
+                </button>
+                {isSearchOpen && (
+                  <div className="search-dropdown-container">
+                    <input
+                      type="text"
+                      placeholder="Search tools..."
+                      value={searchQuery}
+                      onChange={handleSearch}
+                      className="header-search-input"
+                      autoFocus
+                    />
+                    {searchResults.length > 0 && (
+                      <div className="search-dropdown">
+                        {searchResults.map(tool => (
                           <Link
                             key={tool.id}
                             to={tool.path}
-                            onClick={() => setActiveDropdown(null)}
+                            onClick={clearSearch}
+                            className="search-result"
                           >
-                            {tool.name}
+                            <span className="search-result-icon">{tool.icon}</span>
+                            <div>
+                              <div className="search-result-name">{tool.name}</div>
+                              <div className="search-result-desc">{tool.description}</div>
+                            </div>
                           </Link>
                         ))}
                       </div>
-                      <Link
-                        to={`/category/${cat.id}`}
-                        className="dropdown-view-all"
-                        onClick={() => setActiveDropdown(null)}
-                      >
-                        View all {cat.name} tools →
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </nav>
-          </div>
-
-          {/* Right Side: Dark Mode Toggle + Search Icon */}
-          <div className="header-right">
-            <button
-              className="theme-toggle-btn"
-              onClick={toggle}
-              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {isDark ? '☀️' : '🌙'}
-            </button>
-            <div className="header-search">
-              <button
-                className="search-toggle-btn"
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-                aria-label="Toggle search"
-              >
-                🔍
-              </button>
-              {isSearchOpen && (
-                <div className="search-dropdown-container">
-                  <input
-                    type="text"
-                    placeholder="Search tools..."
-                    value={searchQuery}
-                    onChange={handleSearch}
-                    className="header-search-input"
-                    autoFocus
-                  />
-                  {searchResults.length > 0 && (
-                    <div className="search-dropdown">
-                      {searchResults.map(tool => (
-                        <Link
-                          key={tool.id}
-                          to={tool.path}
-                          onClick={clearSearch}
-                          className="search-result"
-                        >
-                          <span className="search-result-icon">{tool.icon}</span>
-                          <div>
-                            <div className="search-result-name">{tool.name}</div>
-                            <div className="search-result-desc">{tool.description}</div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
 
-          {/* Mobile Menu Button */}
+            {/* Mobile Menu Button */}
+            <button
+              className="menu-toggle"
+              onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+              aria-label="Toggle menu"
+            >
+              {isDrawerOpen ? '✕' : '☰'}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Side Drawer Overlay */}
+      {isDrawerOpen && (
+        <div
+          className="drawer-overlay"
+          onClick={() => setIsDrawerOpen(false)}
+        />
+      )}
+
+      {/* Mobile Side Drawer */}
+      <div className={`side-drawer ${isDrawerOpen ? 'open' : ''}`}>
+        <div className="drawer-header">
+          <Link to="/" className="drawer-logo" onClick={() => setIsDrawerOpen(false)}>
+            <span className="logo-icon">🛠️</span>
+            <span className="logo-text">NeoWeb<span className="logo-accent">Tools</span></span>
+          </Link>
           <button
-            className="menu-toggle"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
+            className="drawer-close"
+            onClick={() => setIsDrawerOpen(false)}
+            aria-label="Close menu"
           >
-            {isMenuOpen ? '✕' : '☰'}
+            ✕
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="nav-mobile">
-            <div className="mobile-search">
-              <input
-                type="text"
-                placeholder="Search tools..."
-                value={searchQuery}
-                onChange={handleSearch}
-                className="form-input"
-              />
-            </div>
-            {searchResults.length > 0 && (
-              <div className="mobile-search-results">
-                {searchResults.map(tool => (
-                  <Link
-                    key={tool.id}
-                    to={tool.path}
-                    onClick={() => { clearSearch(); setIsMenuOpen(false); }}
-                    className="search-result"
-                  >
-                    <span>{tool.icon}</span> {tool.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-            <div className="mobile-category-title">Categories</div>
-            {toolsData.categories.map(cat => (
+        {/* Mobile Search */}
+        <div className="drawer-search">
+          <input
+            type="text"
+            placeholder="Search tools..."
+            value={searchQuery}
+            onChange={handleSearch}
+            className="drawer-search-input"
+          />
+        </div>
+
+        {/* Search Results */}
+        {searchResults.length > 0 && (
+          <div className="drawer-search-results">
+            {searchResults.map(tool => (
               <Link
-                key={cat.id}
-                to={`/category/${cat.id}`}
-                onClick={() => setIsMenuOpen(false)}
-                className="mobile-category-link"
+                key={tool.id}
+                to={tool.path}
+                onClick={() => { clearSearch(); setIsDrawerOpen(false); }}
+                className="drawer-search-result"
               >
-                {cat.icon} {cat.name}
+                <span className="result-icon">{tool.icon}</span>
+                <span className="result-name">{tool.name}</span>
               </Link>
             ))}
           </div>
         )}
+
+        {/* Category Navigation with Dropdowns */}
+        <nav className="drawer-nav">
+          <div className="drawer-section-title">Categories</div>
+          {toolsData.categories.map(cat => (
+            <div key={cat.id} className="drawer-category">
+              <div className="drawer-category-header">
+                <Link
+                  to={`/category/${cat.id}`}
+                  className="drawer-category-link"
+                  onClick={() => setIsDrawerOpen(false)}
+                >
+                  <span className="cat-icon">{cat.icon}</span>
+                  <span className="cat-name">{cat.name}</span>
+                </Link>
+                <button
+                  className={`drawer-expand-btn ${expandedCategories[cat.id] ? 'expanded' : ''}`}
+                  onClick={() => toggleCategory(cat.id)}
+                  aria-label={`Expand ${cat.name}`}
+                >
+                  ▾
+                </button>
+              </div>
+
+              {/* Category Tools Dropdown */}
+              <div className={`drawer-tools ${expandedCategories[cat.id] ? 'expanded' : ''}`}>
+                {getToolsForCategory(cat.id).map(tool => (
+                  <Link
+                    key={tool.id}
+                    to={tool.path}
+                    className="drawer-tool-link"
+                    onClick={() => setIsDrawerOpen(false)}
+                  >
+                    <span className="tool-icon">{tool.icon}</span>
+                    <span className="tool-name">{tool.name}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        {/* Drawer Footer Links */}
+        <div className="drawer-footer">
+          <div className="drawer-footer-links">
+            <Link to="/about" onClick={() => setIsDrawerOpen(false)}>About</Link>
+            <Link to="/contact" onClick={() => setIsDrawerOpen(false)}>Contact</Link>
+            <Link to="/privacy" onClick={() => setIsDrawerOpen(false)}>Privacy</Link>
+          </div>
+          <button
+            className="drawer-theme-toggle"
+            onClick={toggle}
+          >
+            {isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}
+          </button>
+        </div>
       </div>
 
       <style>{`
@@ -226,7 +322,7 @@ const Header = () => {
           align-items: center;
         }
 
-        .logo {
+        .logo, .drawer-logo {
           display: flex;
           align-items: center;
           gap: var(--spacing-sm);
@@ -330,10 +426,6 @@ const Header = () => {
         .dropdown-tools a:hover {
           background: var(--bg-secondary);
           color: var(--text-dark);
-        }
-
-        .dropdown-tool-icon {
-          font-size: var(--text-base);
         }
 
         .dropdown-view-all {
@@ -458,42 +550,242 @@ const Header = () => {
           font-size: var(--text-xl);
           cursor: pointer;
           color: var(--text-dark);
-        }
-
-        .nav-mobile {
-          display: none;
-          flex-direction: column;
-          padding: var(--spacing-md) 0;
-          border-top: 1px solid var(--platinum);
-        }
-
-        .nav-mobile a {
-          padding: var(--spacing-sm) 0;
-          color: var(--text-dark);
-          text-decoration: none;
-        }
-
-        .mobile-category-title {
-          font-size: var(--text-sm);
-          color: var(--text-muted);
-          margin-top: var(--spacing-md);
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-        }
-
-        .mobile-category-link {
-          padding-left: var(--spacing-md) !important;
-        }
-
-        .mobile-search {
-          margin-bottom: var(--spacing-md);
-        }
-
-        .mobile-search-results {
-          margin-bottom: var(--spacing-md);
           padding: var(--spacing-sm);
-          background: var(--bg-secondary);
+        }
+
+        /* ===== SIDE DRAWER STYLES ===== */
+        .drawer-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 998;
+          animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .side-drawer {
+          position: fixed;
+          top: 0;
+          right: -320px;
+          width: 300px;
+          max-width: 85vw;
+          height: 100vh;
+          background: var(--bg-primary);
+          box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+          z-index: 999;
+          transition: right 0.3s ease;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+
+        .side-drawer.open {
+          right: 0;
+        }
+
+        .drawer-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: var(--spacing-md) var(--spacing-lg);
+          border-bottom: 1px solid var(--platinum);
+          flex-shrink: 0;
+        }
+
+        .drawer-close {
+          background: none;
+          border: none;
+          font-size: var(--text-xl);
+          cursor: pointer;
+          color: var(--text-muted);
+          padding: var(--spacing-xs);
           border-radius: var(--radius);
+          transition: all var(--transition);
+        }
+
+        .drawer-close:hover {
+          background: var(--bg-secondary);
+          color: var(--text-dark);
+        }
+
+        .drawer-search {
+          padding: var(--spacing-md) var(--spacing-lg);
+          flex-shrink: 0;
+        }
+
+        .drawer-search-input {
+          width: 100%;
+          padding: var(--spacing-sm) var(--spacing-md);
+          border: 1px solid var(--platinum);
+          border-radius: var(--radius);
+          font-size: var(--text-sm);
+          background: var(--bg-secondary);
+        }
+
+        .drawer-search-input:focus {
+          outline: none;
+          border-color: var(--pumpkin);
+        }
+
+        .drawer-search-results {
+          padding: 0 var(--spacing-lg);
+          max-height: 200px;
+          overflow-y: auto;
+          flex-shrink: 0;
+        }
+
+        .drawer-search-result {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-sm);
+          padding: var(--spacing-sm);
+          text-decoration: none;
+          color: var(--text-dark);
+          border-radius: var(--radius);
+          transition: background var(--transition);
+        }
+
+        .drawer-search-result:hover {
+          background: var(--bg-secondary);
+        }
+
+        .drawer-nav {
+          flex: 1;
+          overflow-y: auto;
+          padding: var(--spacing-md) 0;
+        }
+
+        .drawer-section-title {
+          font-size: var(--text-xs);
+          font-weight: 600;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          padding: var(--spacing-sm) var(--spacing-lg);
+        }
+
+        .drawer-category {
+          border-bottom: 1px solid var(--platinum);
+        }
+
+        .drawer-category:last-child {
+          border-bottom: none;
+        }
+
+        .drawer-category-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 var(--spacing-lg);
+        }
+
+        .drawer-category-link {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-sm);
+          padding: var(--spacing-md) 0;
+          text-decoration: none;
+          color: var(--text-dark);
+          font-weight: 500;
+          flex: 1;
+        }
+
+        .cat-icon {
+          font-size: var(--text-lg);
+        }
+
+        .drawer-expand-btn {
+          background: none;
+          border: none;
+          padding: var(--spacing-sm);
+          cursor: pointer;
+          color: var(--text-muted);
+          transition: transform var(--transition);
+          font-size: var(--text-sm);
+        }
+
+        .drawer-expand-btn.expanded {
+          transform: rotate(180deg);
+          color: var(--pumpkin);
+        }
+
+        .drawer-tools {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease;
+          background: var(--bg-secondary);
+        }
+
+        .drawer-tools.expanded {
+          max-height: 1000px;
+        }
+
+        .drawer-tool-link {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-sm);
+          padding: var(--spacing-sm) var(--spacing-lg);
+          padding-left: calc(var(--spacing-lg) + var(--spacing-lg));
+          text-decoration: none;
+          color: var(--text-light);
+          font-size: var(--text-sm);
+          transition: all var(--transition);
+        }
+
+        .drawer-tool-link:hover {
+          background: rgba(252, 122, 30, 0.1);
+          color: var(--pumpkin);
+        }
+
+        .drawer-tool-link .tool-icon {
+          font-size: var(--text-base);
+          opacity: 0.8;
+        }
+
+        .drawer-footer {
+          flex-shrink: 0;
+          padding: var(--spacing-lg);
+          border-top: 1px solid var(--platinum);
+          background: var(--bg-secondary);
+        }
+
+        .drawer-footer-links {
+          display: flex;
+          gap: var(--spacing-md);
+          margin-bottom: var(--spacing-md);
+        }
+
+        .drawer-footer-links a {
+          color: var(--text-muted);
+          text-decoration: none;
+          font-size: var(--text-sm);
+        }
+
+        .drawer-footer-links a:hover {
+          color: var(--pumpkin);
+        }
+
+        .drawer-theme-toggle {
+          width: 100%;
+          padding: var(--spacing-sm) var(--spacing-md);
+          border: 1px solid var(--platinum);
+          border-radius: var(--radius);
+          background: var(--bg-primary);
+          cursor: pointer;
+          font-size: var(--text-sm);
+          color: var(--text-dark);
+          transition: all var(--transition);
+        }
+
+        .drawer-theme-toggle:hover {
+          border-color: var(--pumpkin);
         }
 
         @media (max-width: 1200px) {
@@ -517,14 +809,18 @@ const Header = () => {
           .menu-toggle {
             display: block;
           }
+        }
 
-          .nav-mobile {
-            display: flex;
+        @media (min-width: 901px) {
+          .side-drawer,
+          .drawer-overlay {
+            display: none !important;
           }
         }
       `}</style>
-    </header>
+    </>
   );
 };
 
 export default Header;
+

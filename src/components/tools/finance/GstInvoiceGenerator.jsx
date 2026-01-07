@@ -1,7 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
 import { templateList } from './InvoiceTemplates';
+
+const STORAGE_KEY = 'gst_invoice_business_profile';
 
 const GstInvoiceGenerator = () => {
   const [invoiceData, setInvoiceData] = useState({
@@ -24,8 +26,65 @@ const GstInvoiceGenerator = () => {
   });
   const [generatedInvoice, setGeneratedInvoice] = useState(null);
   const [selectedTemplate, setSelectedTemplate] = useState('classic');
+  const [profileSaved, setProfileSaved] = useState(false);
   const invoiceRef = useRef(null);
   const fileInputRef = useRef(null);
+
+  // Load saved business profile from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const profile = JSON.parse(saved);
+        setInvoiceData(prev => ({
+          ...prev,
+          sellerLogo: profile.sellerLogo || '',
+          sellerName: profile.sellerName || '',
+          sellerAddress: profile.sellerAddress || '',
+          sellerGstin: profile.sellerGstin || '',
+          sellerEmail: profile.sellerEmail || '',
+          sellerPhone: profile.sellerPhone || ''
+        }));
+        if (profile.preferredTemplate) {
+          setSelectedTemplate(profile.preferredTemplate);
+        }
+        setProfileSaved(true);
+      }
+    } catch (e) {
+      console.error('Failed to load business profile:', e);
+    }
+  }, []);
+
+  // Save business profile to localStorage
+  const saveBusinessProfile = () => {
+    try {
+      const profile = {
+        sellerLogo: invoiceData.sellerLogo,
+        sellerName: invoiceData.sellerName,
+        sellerAddress: invoiceData.sellerAddress,
+        sellerGstin: invoiceData.sellerGstin,
+        sellerEmail: invoiceData.sellerEmail,
+        sellerPhone: invoiceData.sellerPhone,
+        preferredTemplate: selectedTemplate
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+      setProfileSaved(true);
+      alert('Business profile saved! Your details will be pre-filled next time.');
+    } catch (e) {
+      alert('Failed to save profile. Storage might be full.');
+    }
+  };
+
+  // Clear saved business profile
+  const clearBusinessProfile = () => {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+      setProfileSaved(false);
+      alert('Saved business profile cleared.');
+    } catch (e) {
+      console.error('Failed to clear profile:', e);
+    }
+  };
 
   const relatedTools = toolsData.tools
     .filter(t => t.category === 'finance' && t.id !== 'gst-invoice-generator')
@@ -325,6 +384,29 @@ const GstInvoiceGenerator = () => {
                   placeholder="+91 98765 43210"
                 />
               </div>
+            </div>
+
+            {/* Save Profile Section */}
+            <div className="profile-actions">
+              <button
+                type="button"
+                className="btn btn-save-profile"
+                onClick={saveBusinessProfile}
+              >
+                💾 Save Business Profile
+              </button>
+              {profileSaved && (
+                <button
+                  type="button"
+                  className="btn btn-clear-profile"
+                  onClick={clearBusinessProfile}
+                >
+                  🗑️ Clear Saved Profile
+                </button>
+              )}
+              {profileSaved && (
+                <span className="profile-saved-badge">✓ Profile saved</span>
+              )}
             </div>
           </div>
 
@@ -700,6 +782,57 @@ const GstInvoiceGenerator = () => {
           height: 24px;
           cursor: pointer;
           font-size: 12px;
+        }
+
+        /* Profile Actions */
+        .profile-actions {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-md);
+          margin-top: var(--spacing-md);
+          padding-top: var(--spacing-md);
+          border-top: 1px dashed var(--platinum);
+          flex-wrap: wrap;
+        }
+
+        .btn-save-profile {
+          background: var(--success, #28a745);
+          color: white;
+          border: none;
+          padding: var(--spacing-xs) var(--spacing-md);
+          border-radius: var(--radius);
+          cursor: pointer;
+          font-size: var(--text-sm);
+          transition: opacity 0.2s;
+        }
+
+        .btn-save-profile:hover {
+          opacity: 0.9;
+        }
+
+        .btn-clear-profile {
+          background: transparent;
+          color: var(--error);
+          border: 1px solid var(--error);
+          padding: var(--spacing-xs) var(--spacing-md);
+          border-radius: var(--radius);
+          cursor: pointer;
+          font-size: var(--text-sm);
+          transition: all 0.2s;
+        }
+
+        .btn-clear-profile:hover {
+          background: var(--error);
+          color: white;
+        }
+
+        .profile-saved-badge {
+          background: rgba(40, 167, 69, 0.1);
+          color: var(--success, #28a745);
+          padding: var(--spacing-xs) var(--spacing-sm);
+          border-radius: var(--radius);
+          font-size: var(--text-sm);
+          font-weight: 500;
         }
 
         /* Template Selection Styles */

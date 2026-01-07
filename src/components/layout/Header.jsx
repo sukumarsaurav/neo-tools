@@ -12,7 +12,20 @@ const Header = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [expandedCategories, setExpandedCategories] = useState({});
   const location = useLocation();
-  const { isDark, toggle } = useDarkMode();
+  const { isDark, toggle, detectionMethod } = useDarkMode();
+
+  // Generate tooltip text based on detection method
+  const getThemeTooltip = () => {
+    const modeText = isDark ? 'dark mode' : 'light mode';
+    switch (detectionMethod) {
+      case 'system':
+        return `${isDark ? '☀️' : '🌙'} Switch theme (currently ${modeText} via system preference)`;
+      case 'time':
+        return `${isDark ? '☀️' : '🌙'} Switch theme (currently ${modeText} based on time of day)`;
+      default:
+        return `${isDark ? '☀️' : '🌙'} Switch theme (manually set to ${modeText})`;
+    }
+  };
 
   // Close drawer on route change
   useEffect(() => {
@@ -128,8 +141,8 @@ const Header = () => {
               <button
                 className="theme-toggle-btn"
                 onClick={toggle}
-                aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                aria-label={getThemeTooltip()}
+                title={getThemeTooltip()}
               >
                 {isDark ? '☀️' : '🌙'}
               </button>
@@ -289,8 +302,13 @@ const Header = () => {
           <button
             className="drawer-theme-toggle"
             onClick={toggle}
+            title={getThemeTooltip()}
           >
             {isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}
+            <span className="theme-detection-hint">
+              {detectionMethod === 'system' && ' (System)'}
+              {detectionMethod === 'time' && ' (Auto)'}
+            </span>
           </button>
         </div>
       </div>
@@ -795,6 +813,12 @@ const Header = () => {
 
         .drawer-theme-toggle:hover {
           border-color: var(--pumpkin);
+        }
+
+        .theme-detection-hint {
+          font-size: var(--text-xs);
+          color: var(--text-muted);
+          font-weight: 400;
         }
 
         @media (max-width: 1200px) {

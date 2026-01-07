@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const OgGenerator = () => {
+    const toast = useToast();
     const [data, setData] = useState({ title: '', description: '', url: '', image: '', siteName: '', type: 'website' });
     const relatedTools = toolsData.tools.filter(t => t.category === 'seo' && t.id !== 'og-generator').slice(0, 3);
 
@@ -17,7 +19,7 @@ const OgGenerator = () => {
         return code;
     };
 
-    const copyCode = () => { navigator.clipboard.writeText(generateCode()); alert('Copied!'); };
+    const copyCode = () => { navigator.clipboard.writeText(generateCode()); toast.success('Copied to clipboard!'); };
 
     const faqs = [
         { question: 'What are Open Graph tags?', answer: 'Open Graph (OG) tags are meta tags that control how content appears when shared on social media platforms like Facebook, LinkedIn, and others.' },

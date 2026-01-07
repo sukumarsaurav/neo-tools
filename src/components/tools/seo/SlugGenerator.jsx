@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const SlugGenerator = () => {
+    const toast = useToast();
     const [text, setText] = useState('');
     const [separator, setSeparator] = useState('-');
     const [lowercase, setLowercase] = useState(true);
@@ -16,7 +18,7 @@ const SlugGenerator = () => {
         setSlug(result);
     };
 
-    const copySlug = () => { navigator.clipboard.writeText(slug); alert('Copied!'); };
+    const copySlug = () => { navigator.clipboard.writeText(slug); toast.success('Slug copied!'); };
 
     const faqs = [
         { question: 'What is a URL slug?', answer: 'A slug is the URL-friendly part of a web address that identifies a page. Example: in "example.com/my-blog-post", "my-blog-post" is the slug.' },

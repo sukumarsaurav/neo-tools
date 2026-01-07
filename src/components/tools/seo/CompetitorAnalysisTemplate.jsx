@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const CompetitorAnalysisTemplate = () => {
+    const toast = useToast();
     const [yourDomain, setYourDomain] = useState('');
     const [competitors, setCompetitors] = useState('');
     const [industry, setIndustry] = useState('general');
@@ -20,10 +22,10 @@ const CompetitorAnalysisTemplate = () => {
     ];
 
     const generateTemplate = () => {
-        if (!yourDomain.trim()) { alert('Please enter your domain'); return; }
+        if (!yourDomain.trim()) { toast.warning('Please enter your domain'); return; }
 
         const competitorList = competitors.split('\n').map(c => c.trim()).filter(c => c.length > 0).slice(0, 5);
-        if (competitorList.length === 0) { alert('Please enter at least one competitor domain'); return; }
+        if (competitorList.length === 0) { toast.warning('Please enter at least one competitor domain'); return; }
 
         const metrics = [
             {

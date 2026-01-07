@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const SeoGoalTracker = () => {
+    const toast = useToast();
     const [websiteUrl, setWebsiteUrl] = useState('');
     const [goals, setGoals] = useState(['traffic', 'rankings']);
     const [timeframe, setTimeframe] = useState('quarterly');
@@ -28,7 +30,7 @@ const SeoGoalTracker = () => {
     };
 
     const generateTemplate = () => {
-        if (!websiteUrl.trim()) { alert('Please enter your website URL'); return; }
+        if (!websiteUrl.trim()) { toast.warning('Please enter your website URL'); return; }
 
         const kpis = {
             traffic: [

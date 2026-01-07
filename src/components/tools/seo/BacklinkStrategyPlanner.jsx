@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const BacklinkStrategyPlanner = () => {
+    const toast = useToast();
     const [niche, setNiche] = useState('');
     const [contentTypes, setContentTypes] = useState(['blog']);
     const [authorityLevel, setAuthorityLevel] = useState('low');
@@ -183,7 +185,7 @@ Best,
     };
 
     const generatePlan = () => {
-        if (!niche.trim()) { alert('Please enter your niche/industry'); return; }
+        if (!niche.trim()) { toast.warning('Please enter your niche/industry'); return; }
 
         const recommended = [];
 
@@ -321,7 +323,7 @@ Best,
                                             <div className="template-section">
                                                 <h5>📧 Outreach Template:</h5>
                                                 <pre className="template-code">{tactic.template}</pre>
-                                                <button className="copy-btn" onClick={() => { navigator.clipboard.writeText(tactic.template); alert('Template copied!'); }}>📋 Copy Template</button>
+                                                <button className="copy-btn" onClick={() => { navigator.clipboard.writeText(tactic.template); toast.success('Template copied!'); }}>📋 Copy Template</button>
                                             </div>
                                         )}
                                     </div>

@@ -130,6 +130,7 @@ const Footer = () => {
           width: 36px;
           height: 36px;
           background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           border-radius: var(--radius);
           display: flex;
           align-items: center;
@@ -161,14 +162,17 @@ const Footer = () => {
         }
 
         .footer-section a {
-          color: rgba(255, 255, 255, 0.7);
-          text-decoration: none;
+          color: rgba(255, 255, 255, 0.85);
+          text-decoration: underline;
+          text-decoration-color: rgba(255, 255, 255, 0.4);
+          text-underline-offset: 2px;
           font-size: var(--text-sm);
-          transition: color var(--transition);
+          transition: all var(--transition);
         }
 
         .footer-section a:hover {
           color: var(--sunset);
+          text-decoration-color: var(--sunset);
         }
 
         .footer-bottom {
@@ -190,17 +194,20 @@ const Footer = () => {
         }
 
         .footer-credit {
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 0.7);
         }
 
         .footer-credit a {
           color: var(--sunset);
-          text-decoration: none;
-          transition: color var(--transition);
+          text-decoration: underline;
+          text-decoration-color: var(--sunset);
+          text-underline-offset: 2px;
+          transition: all var(--transition);
         }
 
         .footer-credit a:hover {
           color: var(--pumpkin);
+          text-decoration-color: var(--pumpkin);
         }
 
         @media (max-width: 768px) {

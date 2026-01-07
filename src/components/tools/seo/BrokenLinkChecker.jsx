@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const BrokenLinkChecker = () => {
+    const toast = useToast();
     const [urls, setUrls] = useState('');
     const [checking, setChecking] = useState(false);
     const [results, setResults] = useState([]);
@@ -39,7 +41,7 @@ const BrokenLinkChecker = () => {
     const checkAllLinks = async () => {
         const urlList = parseUrls();
         if (urlList.length === 0) {
-            alert('Please enter at least one valid URL (starting with http:// or https://)');
+            toast.warning('Please enter at least one valid URL (starting with http:// or https://)');
             return;
         }
 
@@ -84,7 +86,7 @@ const BrokenLinkChecker = () => {
     const retryFailed = async () => {
         const failedUrls = results.filter(r => r.status === 'Error').map(r => r.url);
         if (failedUrls.length === 0) {
-            alert('No failed links to retry');
+            toast.info('No failed links to retry');
             return;
         }
         setUrls(failedUrls.join('\n'));
@@ -116,9 +118,9 @@ const BrokenLinkChecker = () => {
 
     const copyBrokenLinks = () => {
         const broken = results.filter(r => r.status === 'Error').map(r => r.url).join('\n');
-        if (!broken) { alert('No broken links found'); return; }
+        if (!broken) { toast.info('No broken links found'); return; }
         navigator.clipboard.writeText(broken);
-        alert('Broken links copied to clipboard!');
+        toast.success('Broken links copied to clipboard!');
     };
 
     const clearAll = () => {

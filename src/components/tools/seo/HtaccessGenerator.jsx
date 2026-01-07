@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const HtaccessGenerator = () => {
+    const toast = useToast();
     const [options, setOptions] = useState({ www: 'force-www', https: true, gzip: true, caching: true, hotlink: false, domain: '' });
     const relatedTools = toolsData.tools.filter(t => t.category === 'seo' && t.id !== 'htaccess-generator').slice(0, 3);
 
@@ -17,7 +19,7 @@ const HtaccessGenerator = () => {
         return code;
     };
 
-    const copyCode = () => { navigator.clipboard.writeText(generateCode()); alert('Copied!'); };
+    const copyCode = () => { navigator.clipboard.writeText(generateCode()); toast.success('Copied to clipboard!'); };
 
     const faqs = [
         { question: 'What is .htaccess?', answer: '.htaccess is an Apache server configuration file that controls URL rewriting, redirects, security, and performance settings for your website.' },

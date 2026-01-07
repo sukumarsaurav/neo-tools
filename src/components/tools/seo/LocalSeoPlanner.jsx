@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const LocalSeoPlanner = () => {
+    const toast = useToast();
     const [businessName, setBusinessName] = useState('');
     const [businessType, setBusinessType] = useState('restaurant');
     const [city, setCity] = useState('');
@@ -73,7 +75,7 @@ const LocalSeoPlanner = () => {
 
     const generatePlan = () => {
         if (!businessName.trim() || !city.trim()) {
-            alert('Please enter business name and city');
+            toast.warning('Please enter business name and city');
             return;
         }
 

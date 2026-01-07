@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const ContentOptimizationScorecard = () => {
+    const toast = useToast();
     const [content, setContent] = useState('');
     const [targetKeyword, setTargetKeyword] = useState('');
     const [targetAudience, setTargetAudience] = useState('general');
@@ -11,8 +13,8 @@ const ContentOptimizationScorecard = () => {
     const relatedTools = toolsData.tools.filter(t => t.category === 'seo' && t.id !== 'content-optimization-scorecard').slice(0, 3);
 
     const analyzeContent = () => {
-        if (!content.trim()) { alert('Please enter content to analyze'); return; }
-        if (!targetKeyword.trim()) { alert('Please enter a target keyword'); return; }
+        if (!content.trim()) { toast.warning('Please enter content to analyze'); return; }
+        if (!targetKeyword.trim()) { toast.warning('Please enter a target keyword'); return; }
 
         const text = content.trim();
         const keyword = targetKeyword.toLowerCase().trim();
@@ -42,6 +44,21 @@ const ContentOptimizationScorecard = () => {
         }).length || 1;
         const avgSyllablesPerWord = syllables / Math.max(wordCount, 1);
         const fleschScore = Math.max(0, Math.min(100, 206.835 - (1.015 * avgSentenceLength) - (84.6 * avgSyllablesPerWord)));
+
+        // Reading level interpretation
+        const getReadingLevel = (score) => {
+            if (score >= 90) return { level: '5th Grade', desc: 'Very Easy' };
+            if (score >= 80) return { level: '6th Grade', desc: 'Easy' };
+            if (score >= 70) return { level: '7th Grade', desc: 'Fairly Easy' };
+            if (score >= 60) return { level: '8-9th Grade', desc: 'Standard' };
+            if (score >= 50) return { level: '10-12th Grade', desc: 'Fairly Difficult' };
+            if (score >= 30) return { level: 'College', desc: 'Difficult' };
+            return { level: 'Graduate', desc: 'Very Difficult' };
+        };
+        const readingLevel = getReadingLevel(fleschScore);
+
+        // Reading time (average 200-250 wpm)
+        const readingTimeMinutes = Math.ceil(wordCount / 225);
 
         // Score calculations
         const scores = {
@@ -90,6 +107,8 @@ const ContentOptimizationScorecard = () => {
             paragraphs: paragraphs.length,
             headings: headingPatterns.length,
             fleschScore: Math.round(fleschScore),
+            readingLevel,
+            readingTimeMinutes,
             scores,
             totalScore,
             grade,
@@ -162,7 +181,8 @@ const ContentOptimizationScorecard = () => {
                             <div className="stat"><span className="stat-value">{analysis.paragraphs}</span><span className="stat-label">Paragraphs</span></div>
                             <div className="stat"><span className="stat-value">{analysis.keywordCount}</span><span className="stat-label">Keyword Uses</span></div>
                             <div className="stat"><span className="stat-value">{analysis.keywordDensity}%</span><span className="stat-label">Keyword Density</span></div>
-                            <div className="stat"><span className="stat-value">{analysis.fleschScore}</span><span className="stat-label">Readability</span></div>
+                            <div className="stat"><span className="stat-value">{analysis.readingTimeMinutes} min</span><span className="stat-label">Read Time</span></div>
+                            <div className="stat"><span className="stat-value">{analysis.readingLevel.level}</span><span className="stat-label">Reading Level</span></div>
                         </div>
 
                         {/* Detailed Scores */}

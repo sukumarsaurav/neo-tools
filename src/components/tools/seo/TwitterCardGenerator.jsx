@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const TwitterCardGenerator = () => {
+    const toast = useToast();
     const [data, setData] = useState({ card: 'summary_large_image', title: '', description: '', image: '', site: '', creator: '' });
     const relatedTools = toolsData.tools.filter(t => t.category === 'seo' && t.id !== 'twitter-card-generator').slice(0, 3);
 
@@ -16,7 +18,7 @@ const TwitterCardGenerator = () => {
         return code;
     };
 
-    const copyCode = () => { navigator.clipboard.writeText(generateCode()); alert('Copied!'); };
+    const copyCode = () => { navigator.clipboard.writeText(generateCode()); toast.success('Copied to clipboard!'); };
 
     const faqs = [
         { question: 'What are Twitter Cards?', answer: 'Twitter Cards are HTML meta tags that control how content appears when shared on Twitter (X), including title, description, and image.' },

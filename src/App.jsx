@@ -28,6 +28,7 @@ import TermsOfService from './pages/TermsOfService';
 import ContactUs from './pages/ContactUs';
 import AboutUs from './pages/AboutUs';
 import SitemapPage from './pages/SitemapPage';
+import SeoDashboard from './pages/SeoDashboard';
 
 // ============================================
 // LAZY LOADED: Financial Tools (12)
@@ -59,7 +60,8 @@ const GpaCalculator = lazy(() => import('./components/tools/typing/GpaCalculator
 const AgeCalculator = lazy(() => import('./components/tools/typing/AgeCalculator'));
 
 // ============================================
-// LAZY LOADED: SEO Tools (21)
+// LAZY LOADED: SEO Tools (29)
+// ============================================
 // ============================================
 const MetaTagGenerator = lazy(() => import('./components/tools/seo/MetaTagGenerator'));
 const RobotsTxtGenerator = lazy(() => import('./components/tools/seo/RobotsTxtGenerator'));
@@ -82,6 +84,14 @@ const CompetitorAnalysisTemplate = lazy(() => import('./components/tools/seo/Com
 const SeoGoalTracker = lazy(() => import('./components/tools/seo/SeoGoalTracker'));
 const BacklinkStrategyPlanner = lazy(() => import('./components/tools/seo/BacklinkStrategyPlanner'));
 const PageSpeedChecklist = lazy(() => import('./components/tools/seo/PageSpeedChecklist'));
+const HreflangGenerator = lazy(() => import('./components/tools/seo/HreflangGenerator'));
+const HeadingAnalyzer = lazy(() => import('./components/tools/seo/HeadingAnalyzer'));
+const ReadabilityChecker = lazy(() => import('./components/tools/seo/ReadabilityChecker'));
+const CanonicalUrlGenerator = lazy(() => import('./components/tools/seo/CanonicalUrlGenerator'));
+const RedirectChainAnalyzer = lazy(() => import('./components/tools/seo/RedirectChainAnalyzer'));
+const ImageAltTextSuggester = lazy(() => import('./components/tools/seo/ImageAltTextSuggester'));
+const MobileSerpPreview = lazy(() => import('./components/tools/seo/MobileSerpPreview'));
+const AllInOneMetaGenerator = lazy(() => import('./components/tools/seo/AllInOneMetaGenerator'));
 
 // ============================================
 // LAZY LOADED: Image & Design Tools (22)
@@ -177,6 +187,7 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/sitemap" element={<SitemapPage />} />
+        <Route path="/seo-dashboard" element={<SeoDashboard />} />
 
         {/* Financial Tools (12) */}
         <Route path="/tools/finance/gst-calculator" element={<LazyRoute component={GstCalculator} />} />
@@ -203,7 +214,7 @@ function App() {
         <Route path="/tools/typing/gpa-calculator" element={<LazyRoute component={GpaCalculator} />} />
         <Route path="/tools/typing/age-calculator" element={<LazyRoute component={AgeCalculator} />} />
 
-        {/* SEO Tools (21) */}
+        {/* SEO Tools (29) */}
         <Route path="/tools/seo/meta-tag-generator" element={<LazyRoute component={MetaTagGenerator} />} />
         <Route path="/tools/seo/robots-txt-generator" element={<LazyRoute component={RobotsTxtGenerator} />} />
         <Route path="/tools/seo/sitemap-generator" element={<LazyRoute component={SitemapGenerator} />} />
@@ -225,6 +236,14 @@ function App() {
         <Route path="/tools/seo/seo-goal-tracker" element={<LazyRoute component={SeoGoalTracker} />} />
         <Route path="/tools/seo/backlink-strategy-planner" element={<LazyRoute component={BacklinkStrategyPlanner} />} />
         <Route path="/tools/seo/page-speed-checklist" element={<LazyRoute component={PageSpeedChecklist} />} />
+        <Route path="/tools/seo/hreflang-generator" element={<LazyRoute component={HreflangGenerator} />} />
+        <Route path="/tools/seo/heading-analyzer" element={<LazyRoute component={HeadingAnalyzer} />} />
+        <Route path="/tools/seo/readability-checker" element={<LazyRoute component={ReadabilityChecker} />} />
+        <Route path="/tools/seo/canonical-url-generator" element={<LazyRoute component={CanonicalUrlGenerator} />} />
+        <Route path="/tools/seo/redirect-chain-analyzer" element={<LazyRoute component={RedirectChainAnalyzer} />} />
+        <Route path="/tools/seo/image-alt-text-suggester" element={<LazyRoute component={ImageAltTextSuggester} />} />
+        <Route path="/tools/seo/mobile-serp-preview" element={<LazyRoute component={MobileSerpPreview} />} />
+        <Route path="/tools/seo/all-in-one-meta-generator" element={<LazyRoute component={AllInOneMetaGenerator} />} />
 
         {/* Image & Design Tools (22) */}
         <Route path="/tools/image/favicon-generator" element={<LazyRoute component={FaviconGenerator} />} />

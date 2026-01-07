@@ -414,6 +414,78 @@
       "popular": false
     },
     {
+      "id": "hreflang-generator",
+      "name": "Hreflang Tag Generator",
+      "description": "Generate hreflang tags for multilingual and international SEO",
+      "category": "seo",
+      "icon": "🌍",
+      "path": "/tools/seo/hreflang-generator",
+      "popular": true
+    },
+    {
+      "id": "heading-analyzer",
+      "name": "Heading Structure Analyzer",
+      "description": "Analyze HTML heading structure for SEO and accessibility",
+      "category": "seo",
+      "icon": "📋",
+      "path": "/tools/seo/heading-analyzer",
+      "popular": true
+    },
+    {
+      "id": "readability-checker",
+      "name": "Readability Checker",
+      "description": "Analyze content readability with Flesch-Kincaid and other scores",
+      "category": "seo",
+      "icon": "📖",
+      "path": "/tools/seo/readability-checker",
+      "popular": true
+    },
+    {
+      "id": "canonical-url-generator",
+      "name": "Canonical URL Generator",
+      "description": "Generate canonical tags to prevent duplicate content issues",
+      "category": "seo",
+      "icon": "🔗",
+      "path": "/tools/seo/canonical-url-generator",
+      "popular": true
+    },
+    {
+      "id": "redirect-chain-analyzer",
+      "name": "Redirect Chain Analyzer",
+      "description": "Analyze redirect chains for loops and SEO issues",
+      "category": "seo",
+      "icon": "🔄",
+      "path": "/tools/seo/redirect-chain-analyzer",
+      "popular": true
+    },
+    {
+      "id": "image-alt-text-suggester",
+      "name": "Image Alt Text Suggester",
+      "description": "Generate and optimize alt text for images",
+      "category": "seo",
+      "icon": "🖼️",
+      "path": "/tools/seo/image-alt-text-suggester",
+      "popular": true
+    },
+    {
+      "id": "mobile-serp-preview",
+      "name": "Mobile SERP Preview",
+      "description": "Preview how your page appears in mobile search results",
+      "category": "seo",
+      "icon": "📱",
+      "path": "/tools/seo/mobile-serp-preview",
+      "popular": true
+    },
+    {
+      "id": "all-in-one-meta-generator",
+      "name": "All-in-One Meta Generator",
+      "description": "Generate all essential meta tags in one place",
+      "category": "seo",
+      "icon": "📝",
+      "path": "/tools/seo/all-in-one-meta-generator",
+      "popular": true
+    },
+    {
       "id": "favicon-generator",
       "name": "Favicon Generator",
       "description": "Create favicons for your website",

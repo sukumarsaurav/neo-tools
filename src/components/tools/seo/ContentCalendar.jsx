@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const ContentCalendar = () => {
+    const toast = useToast();
     const [keywords, setKeywords] = useState('');
     const [frequency, setFrequency] = useState('weekly');
     const [contentTypes, setContentTypes] = useState(['blog']);
@@ -43,7 +45,7 @@ const ContentCalendar = () => {
     const generateCalendar = () => {
         const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k.length > 0);
         if (keywordList.length === 0) {
-            alert('Please enter at least one keyword');
+            toast.warning('Please enter at least one keyword');
             return;
         }
 

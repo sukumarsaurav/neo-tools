@@ -134,9 +134,39 @@ const toolPages = [
 
 const allRoutes = [...staticPages, ...categoryPages, ...toolPages]
 
+// Custom plugin to inject CSS preload hints at the start of <head>
+// This breaks the critical chain: HTML → JS → CSS by making CSS load in parallel
+function cssPreloadPlugin() {
+  return {
+    name: 'css-preload',
+    enforce: 'post',
+    transformIndexHtml(html, ctx) {
+      // Only run in build mode
+      if (!ctx.bundle) return html;
+
+      // Find all CSS files in the bundle
+      const cssFiles = Object.keys(ctx.bundle).filter(name => name.endsWith('.css'));
+
+      if (cssFiles.length === 0) return html;
+
+      // Create preload links for CSS files
+      const preloadLinks = cssFiles.map(file =>
+        `<link rel="preload" href="/${file}" as="style" />`
+      ).join('\n  ');
+
+      // Insert preload links right after <meta charset>
+      return html.replace(
+        /<meta charset="UTF-8" \/>/,
+        `<meta charset="UTF-8" />\n  <!-- CSS Preload for faster LCP -->\n  ${preloadLinks}`
+      );
+    }
+  };
+}
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    cssPreloadPlugin(),
     react(),
     Sitemap({
       hostname: 'https://www.neofreetools.online',
@@ -152,6 +182,10 @@ export default defineConfig({
     cssCodeSplit: true,
     // Set chunk size warning limit (in KB)
     chunkSizeWarningLimit: 200,
+    // Enable module preload polyfill for better resource hints
+    modulePreload: {
+      polyfill: true,
+    },
     // Rollup options for manual chunk splitting
     rollupOptions: {
       output: {
@@ -195,15 +229,8 @@ export default defineConfig({
     },
     // Target modern browsers for smaller bundle size
     target: 'es2020',
-    // Enable minification with terser for better compression
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        // Remove console.log in production
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    // Enable minification with esbuild for faster builds (terser was slow)
+    minify: 'esbuild',
   },
   // Optimize dependencies
   optimizeDeps: {

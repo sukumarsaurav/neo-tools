@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ToolLayout from '../../layout/ToolLayout';
 import toolsData from '../../../data/tools.json';
+import { useToast } from '../../common/Toast';
 
 const InternalLinkingPlanner = () => {
+    const toast = useToast();
     const [pages, setPages] = useState('');
     const [pillarPages, setPillarPages] = useState([]);
     const [linkingPlan, setLinkingPlan] = useState(null);
@@ -20,11 +22,11 @@ const InternalLinkingPlanner = () => {
     const generatePlan = () => {
         const pageList = parsePages();
         if (pageList.length < 3) {
-            alert('Please enter at least 3 pages for a meaningful linking structure');
+            toast.warning('Please enter at least 3 pages for a meaningful linking structure');
             return;
         }
         if (pillarPages.length === 0) {
-            alert('Please select at least one pillar/hub page');
+            toast.warning('Please select at least one pillar/hub page');
             return;
         }
 

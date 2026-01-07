@@ -153,6 +153,87 @@
       "popular": false
     },
     {
+      "id": "tds-calculator",
+      "name": "TDS Calculator",
+      "description": "Calculate Tax Deducted at Source for 194C, 194J, 194I, 194H and other sections",
+      "category": "finance",
+      "icon": "🧾",
+      "path": "/tools/finance/tds-calculator",
+      "popular": true
+    },
+    {
+      "id": "pan-gstin-validator",
+      "name": "PAN & GSTIN Validator",
+      "description": "Validate PAN and GSTIN numbers with checksum verification and entity type detection",
+      "category": "finance",
+      "icon": "✅",
+      "path": "/tools/finance/pan-gstin-validator",
+      "popular": true
+    },
+    {
+      "id": "number-to-words",
+      "name": "Number to Words (Indian)",
+      "description": "Convert numbers to words in Indian format with Lakhs, Crores for cheques and legal documents",
+      "category": "finance",
+      "icon": "🔤",
+      "path": "/tools/finance/number-to-words",
+      "popular": true
+    },
+    {
+      "id": "depreciation-calculator",
+      "name": "Depreciation Calculator",
+      "description": "Calculate asset depreciation under Companies Act and Income Tax Act with SLM and WDV methods",
+      "category": "finance",
+      "icon": "📉",
+      "path": "/tools/finance/depreciation-calculator",
+      "popular": true
+    },
+    {
+      "id": "capital-gains-calculator",
+      "name": "Capital Gains Calculator",
+      "description": "Calculate STCG and LTCG on shares, property, gold with automatic indexation",
+      "category": "finance",
+      "icon": "📈",
+      "path": "/tools/finance/capital-gains-calculator",
+      "popular": true
+    },
+    {
+      "id": "break-even-analysis",
+      "name": "Break-Even Analysis",
+      "description": "Calculate break-even point, contribution margin, and profitability analysis",
+      "category": "finance",
+      "icon": "🎯",
+      "path": "/tools/finance/break-even-analysis",
+      "popular": true
+    },
+    {
+      "id": "cash-flow-forecaster",
+      "name": "Cash Flow Forecaster",
+      "description": "6-month cash flow projection with inflows, outflows, and balance tracking",
+      "category": "finance",
+      "icon": "💵",
+      "path": "/tools/finance/cash-flow-forecaster",
+      "popular": true
+    },
+    {
+      "id": "financial-ratio-analyzer",
+      "name": "Financial Ratio Analyzer",
+      "description": "Analyze liquidity, profitability, solvency, and efficiency ratios with industry benchmarks",
+      "category": "finance",
+      "icon": "📊",
+      "path": "/tools/finance/financial-ratio-analyzer",
+      "popular": true
+    },
+    {
+      "id": "compliance-date-calculator",
+      "name": "Compliance Date Calculator",
+      "description": "Calculate deadlines with working days, exclude weekends and Indian holidays",
+      "category": "finance",
+      "icon": "📅",
+      "path": "/tools/finance/compliance-date-calculator",
+      "popular": true
+    },
+    {
       "id": "typing-test",
       "name": "Typing Speed Test",
       "description": "Test your typing speed and accuracy",

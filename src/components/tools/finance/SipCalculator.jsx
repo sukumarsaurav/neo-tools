@@ -8,12 +8,16 @@ const SipCalculator = () => {
     const [expectedReturn, setExpectedReturn] = useState(12);
     const [timePeriod, setTimePeriod] = useState(10);
     const [result, setResult] = useState(null);
-    const [calculationMode, setCalculationMode] = useState('regular'); // regular, goal
+    const [calculationMode, setCalculationMode] = useState('regular'); // regular, goal, stepup
 
     // Goal-based inputs
     const [targetAmount, setTargetAmount] = useState(10000000);
     const [goalYears, setGoalYears] = useState(10);
     const [goalReturn, setGoalReturn] = useState(12);
+
+    // Step-Up SIP inputs
+    const [stepUpPercent, setStepUpPercent] = useState(10);
+    const [showStepUpTable, setShowStepUpTable] = useState(false);
 
     const relatedTools = toolsData.tools
         .filter(t => t.category === 'finance' && t.id !== 'sip-calculator')
@@ -25,12 +29,16 @@ const SipCalculator = () => {
             if (monthlyInvestment > 0 && expectedReturn > 0 && timePeriod > 0) {
                 calculateRegular();
             }
-        } else {
+        } else if (calculationMode === 'goal') {
             if (targetAmount > 0 && goalYears > 0 && goalReturn > 0) {
                 calculateGoal();
             }
+        } else if (calculationMode === 'stepup') {
+            if (monthlyInvestment > 0 && expectedReturn > 0 && timePeriod > 0) {
+                calculateStepUp();
+            }
         }
-    }, [monthlyInvestment, expectedReturn, timePeriod, targetAmount, goalYears, goalReturn, calculationMode]);
+    }, [monthlyInvestment, expectedReturn, timePeriod, targetAmount, goalYears, goalReturn, calculationMode, stepUpPercent]);
 
     const calculateRegular = () => {
         const P = parseFloat(monthlyInvestment);
@@ -82,6 +90,83 @@ const SipCalculator = () => {
         });
     };
 
+    const calculateStepUp = () => {
+        const P = parseFloat(monthlyInvestment);
+        const r = parseFloat(expectedReturn) / 12 / 100;
+        const years = parseFloat(timePeriod);
+        const stepUp = parseFloat(stepUpPercent) / 100;
+
+        if (isNaN(P) || isNaN(r) || isNaN(years) || P <= 0 || years <= 0) {
+            return;
+        }
+
+        // Year-by-year calculation
+        const yearlyBreakdown = [];
+        let totalInvestment = 0;
+        let totalFV = 0;
+        let currentMonthly = P;
+
+        for (let year = 1; year <= years; year++) {
+            const monthsRemaining = (years - year + 1) * 12;
+            const yearlyInvestment = currentMonthly * 12;
+
+            // FV of this year's SIP at end of investment period
+            const yearFV = currentMonthly * (((Math.pow(1 + r, monthsRemaining) - 1) / r) * (1 + r)) -
+                currentMonthly * (((Math.pow(1 + r, monthsRemaining - 12) - 1) / r) * (1 + r));
+
+            totalInvestment += yearlyInvestment;
+            totalFV += yearFV;
+
+            yearlyBreakdown.push({
+                year,
+                monthlySIP: currentMonthly,
+                yearlyInvestment,
+                cumulativeInvestment: totalInvestment
+            });
+
+            // Increase SIP for next year
+            currentMonthly = currentMonthly * (1 + stepUp);
+        }
+
+        // More accurate calculation using compound formula for step-up SIP
+        let accurateFV = 0;
+        currentMonthly = P;
+
+        for (let year = 1; year <= years; year++) {
+            const n = (years - year + 1) * 12;
+            const monthlyFV = currentMonthly * (((Math.pow(1 + r, n) - Math.pow(1 + r, n - 12)) / r) * (1 + r));
+            accurateFV += monthlyFV;
+            currentMonthly = currentMonthly * (1 + stepUp);
+        }
+
+        // Compare with regular SIP
+        const regularFV = P * (((Math.pow(1 + r, years * 12) - 1) / r) * (1 + r));
+        const regularInvestment = P * years * 12;
+
+        const wealthGained = accurateFV - totalInvestment;
+        const extraGain = accurateFV - regularFV;
+        const extraInvestment = totalInvestment - regularInvestment;
+
+        setResult({
+            futureValue: accurateFV.toFixed(0),
+            totalInvestment: totalInvestment.toFixed(0),
+            wealthGained: wealthGained.toFixed(0),
+            years: timePeriod,
+            returnRate: expectedReturn,
+            monthlyAmount: P,
+            stepUpPercent,
+            yearlyBreakdown,
+            regularSIP: {
+                futureValue: regularFV.toFixed(0),
+                totalInvestment: regularInvestment.toFixed(0),
+                wealthGained: (regularFV - regularInvestment).toFixed(0)
+            },
+            extraGain: extraGain.toFixed(0),
+            extraInvestment: extraInvestment.toFixed(0),
+            mode: 'stepup'
+        });
+    };
+
     // Generate copy text for results
     const getCopyText = () => {
         if (!result) return '';
@@ -95,7 +180,7 @@ Time Period: ${result.years} years
 Total Investment: ₹${parseInt(result.totalInvestment).toLocaleString('en-IN')}
 Wealth Gained: ₹${parseInt(result.wealthGained).toLocaleString('en-IN')}
 Future Value: ₹${parseInt(result.futureValue).toLocaleString('en-IN')}`;
-        } else {
+        } else if (result.mode === 'goal') {
             return `SIP Goal Calculator Results
 ========================
 Target Amount: ₹${parseInt(result.futureValue).toLocaleString('en-IN')}
@@ -105,7 +190,22 @@ Time Period: ${result.years} years
 Required Monthly SIP: ₹${parseInt(result.monthlyAmount).toLocaleString('en-IN')}
 Total Investment: ₹${parseInt(result.totalInvestment).toLocaleString('en-IN')}
 Wealth Gained: ₹${parseInt(result.wealthGained).toLocaleString('en-IN')}`;
+        } else if (result.mode === 'stepup') {
+            return `Step-Up SIP Calculator Results
+========================
+Starting Monthly SIP: ₹${parseInt(result.monthlyAmount).toLocaleString('en-IN')}
+Annual Step-Up: ${result.stepUpPercent}%
+Expected Return: ${result.returnRate}% p.a.
+Time Period: ${result.years} years
+
+Total Investment: ₹${parseInt(result.totalInvestment).toLocaleString('en-IN')}
+Future Value: ₹${parseInt(result.futureValue).toLocaleString('en-IN')}
+Wealth Gained: ₹${parseInt(result.wealthGained).toLocaleString('en-IN')}
+
+Comparison with Regular SIP:
+Extra Wealth Generated: ₹${parseInt(result.extraGain).toLocaleString('en-IN')}`;
         }
+        return '';
     };
 
     // Donut chart data
@@ -214,15 +314,25 @@ Wealth Gained: ₹${parseInt(result.wealthGained).toLocaleString('en-IN')}`;
         >
             <div className="tool-form">
                 {/* Mode Toggle */}
-                <div className="mode-toggle">
+                <div className="mode-toggle three-col">
                     <button
                         className={`mode-btn ${calculationMode === 'regular' ? 'active' : ''}`}
                         onClick={() => setCalculationMode('regular')}
                     >
                         <span className="mode-icon">📊</span>
                         <span className="mode-text">
-                            <strong>Calculate Returns</strong>
-                            <small>I know my monthly SIP amount</small>
+                            <strong>Regular SIP</strong>
+                            <small>Fixed monthly amount</small>
+                        </span>
+                    </button>
+                    <button
+                        className={`mode-btn ${calculationMode === 'stepup' ? 'active' : ''}`}
+                        onClick={() => setCalculationMode('stepup')}
+                    >
+                        <span className="mode-icon">📈</span>
+                        <span className="mode-text">
+                            <strong>Step-Up SIP</strong>
+                            <small>Increase SIP yearly</small>
                         </span>
                     </button>
                     <button
@@ -231,13 +341,13 @@ Wealth Gained: ₹${parseInt(result.wealthGained).toLocaleString('en-IN')}`;
                     >
                         <span className="mode-icon">🎯</span>
                         <span className="mode-text">
-                            <strong>Plan My Goal</strong>
-                            <small>I have a target amount in mind</small>
+                            <strong>Goal SIP</strong>
+                            <small>Target amount in mind</small>
                         </span>
                     </button>
                 </div>
 
-                {calculationMode === 'regular' ? (
+                {calculationMode === 'regular' && (
                     <>
                         {/* Monthly Investment Slider */}
                         <SliderInput
@@ -285,7 +395,73 @@ Wealth Gained: ₹${parseInt(result.wealthGained).toLocaleString('en-IN')}`;
                             formatValue={(val) => val.toString()}
                         />
                     </>
-                ) : (
+                )}
+
+                {calculationMode === 'stepup' && (
+                    <>
+                        {/* Monthly Investment Slider */}
+                        <SliderInput
+                            id="stepup-investment"
+                            label="Starting Monthly SIP"
+                            value={monthlyInvestment}
+                            onChange={setMonthlyInvestment}
+                            min={500}
+                            max={500000}
+                            step={500}
+                            prefix="₹"
+                            tickMarks={[5000, 25000, 100000, 250000, 500000]}
+                            formatValue={(val) => {
+                                if (val >= 100000) return `${(val / 100000).toFixed(1)}L`;
+                                if (val >= 1000) return `${(val / 1000).toFixed(0)}K`;
+                                return val.toLocaleString('en-IN');
+                            }}
+                        />
+
+                        {/* Step-Up Percentage Slider */}
+                        <SliderInput
+                            id="stepup-percent"
+                            label="Annual Step-Up (%)"
+                            value={stepUpPercent}
+                            onChange={setStepUpPercent}
+                            min={5}
+                            max={25}
+                            step={1}
+                            suffix="%"
+                            tickMarks={[5, 10, 15, 20, 25]}
+                            formatValue={(val) => val.toString()}
+                        />
+
+                        {/* Expected Return Slider */}
+                        <SliderInput
+                            id="stepup-return"
+                            label="Expected Return Rate (% p.a.)"
+                            value={expectedReturn}
+                            onChange={setExpectedReturn}
+                            min={6}
+                            max={20}
+                            step={0.5}
+                            suffix="%"
+                            tickMarks={[6, 8, 10, 12, 14, 16, 18, 20]}
+                            formatValue={(val) => val.toFixed(1)}
+                        />
+
+                        {/* Investment Period Slider */}
+                        <SliderInput
+                            id="stepup-period"
+                            label="Investment Period (Years)"
+                            value={timePeriod}
+                            onChange={setTimePeriod}
+                            min={1}
+                            max={40}
+                            step={1}
+                            suffix=" yrs"
+                            tickMarks={[5, 10, 15, 20, 25, 30, 35, 40]}
+                            formatValue={(val) => val.toString()}
+                        />
+                    </>
+                )}
+
+                {calculationMode === 'goal' && (
                     <>
                         {/* Target Amount Slider */}
                         <SliderInput
@@ -362,6 +538,13 @@ Wealth Gained: ₹${parseInt(result.wealthGained).toLocaleString('en-IN')}`;
                                         <span className="result-note">to reach your goal</span>
                                     </div>
                                 )}
+                                {result.mode === 'stepup' && (
+                                    <div className="result-item highlight stepup-result">
+                                        <span className="result-label">Future Value ({result.years} years @ {result.stepUpPercent}% step-up)</span>
+                                        <span className="result-value">₹{parseInt(result.futureValue).toLocaleString('en-IN')}</span>
+                                        <span className="result-note">with annual SIP increase</span>
+                                    </div>
+                                )}
                                 <div className="result-item">
                                     <span className="result-label">Total Investment</span>
                                     <span className="result-value">₹{parseInt(result.totalInvestment).toLocaleString('en-IN')}</span>
@@ -379,6 +562,31 @@ Wealth Gained: ₹${parseInt(result.wealthGained).toLocaleString('en-IN')}`;
                                     </div>
                                 )}
                             </div>
+
+                            {/* Step-Up vs Regular Comparison */}
+                            {result.mode === 'stepup' && result.regularSIP && (
+                                <div className="stepup-comparison">
+                                    <h4>📈 Step-Up SIP Advantage</h4>
+                                    <div className="comparison-grid">
+                                        <div className="comparison-item">
+                                            <span className="comp-label">Regular SIP Future Value</span>
+                                            <span className="comp-value">₹{parseInt(result.regularSIP.futureValue).toLocaleString('en-IN')}</span>
+                                        </div>
+                                        <div className="comparison-item">
+                                            <span className="comp-label">Step-Up SIP Future Value</span>
+                                            <span className="comp-value highlight">₹{parseInt(result.futureValue).toLocaleString('en-IN')}</span>
+                                        </div>
+                                        <div className="comparison-item extra-gain">
+                                            <span className="comp-label">Extra Wealth with Step-Up</span>
+                                            <span className="comp-value success">+₹{parseInt(result.extraGain).toLocaleString('en-IN')}</span>
+                                        </div>
+                                        <div className="comparison-item">
+                                            <span className="comp-label">Additional Investment</span>
+                                            <span className="comp-value">₹{parseInt(result.extraInvestment).toLocaleString('en-IN')}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Investment Growth Visualization */}
                             <div className="growth-visual">
@@ -592,6 +800,97 @@ Wealth Gained: ₹${parseInt(result.wealthGained).toLocaleString('en-IN')}`;
 
         .dot.returns {
           background: var(--success);
+        }
+
+        /* Three column mode toggle */
+        .mode-toggle.three-col {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .mode-toggle.three-col .mode-btn {
+          padding: var(--spacing-sm);
+        }
+
+        .mode-toggle.three-col .mode-icon {
+          font-size: 1.5rem;
+        }
+
+        .mode-toggle.three-col .mode-text strong {
+          font-size: var(--text-sm);
+        }
+
+        /* Step-up result styling */
+        .result-item.highlight.stepup-result {
+          background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        /* Step-up comparison section */
+        .stepup-comparison {
+          margin-top: var(--spacing-lg);
+          padding: var(--spacing-lg);
+          background: var(--bg-secondary);
+          border-radius: var(--radius);
+          border-left: 4px solid #8b5cf6;
+        }
+
+        .stepup-comparison h4 {
+          margin: 0 0 var(--spacing-md) 0;
+          font-size: var(--text-base);
+        }
+
+        .comparison-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: var(--spacing-md);
+        }
+
+        .comparison-item {
+          padding: var(--spacing-sm);
+          background: var(--bg-primary);
+          border-radius: var(--radius-sm);
+          text-align: center;
+        }
+
+        .comparison-item.extra-gain {
+          grid-column: span 2;
+          background: rgba(16, 185, 129, 0.1);
+          border: 1px solid var(--success);
+        }
+
+        .comp-label {
+          display: block;
+          font-size: var(--text-xs);
+          color: var(--text-muted);
+          margin-bottom: var(--spacing-xs);
+        }
+
+        .comp-value {
+          display: block;
+          font-size: var(--text-lg);
+          font-weight: 600;
+        }
+
+        .comp-value.highlight {
+          color: #8b5cf6;
+        }
+
+        .comp-value.success {
+          color: var(--success);
+          font-size: var(--text-xl);
+        }
+
+        @media (max-width: 600px) {
+          .mode-toggle.three-col {
+            grid-template-columns: 1fr;
+          }
+
+          .comparison-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .comparison-item.extra-gain {
+            grid-column: span 1;
+          }
         }
 
         @media (max-width: 480px) {

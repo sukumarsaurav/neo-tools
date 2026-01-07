@@ -31,7 +31,8 @@ import SitemapPage from './pages/SitemapPage';
 import SeoDashboard from './pages/SeoDashboard';
 
 // ============================================
-// LAZY LOADED: Financial Tools (12)
+// LAZY LOADED: Financial Tools (21)
+// ============================================
 // ============================================
 const GstCalculator = lazy(() => import('./components/tools/finance/GstCalculator'));
 const GstInvoiceGenerator = lazy(() => import('./components/tools/finance/GstInvoiceGenerator'));
@@ -45,6 +46,15 @@ const InflationCalculator = lazy(() => import('./components/tools/finance/Inflat
 const RoiCalculator = lazy(() => import('./components/tools/finance/RoiCalculator'));
 const CurrencyConverter = lazy(() => import('./components/tools/finance/CurrencyConverter'));
 const MarginCalculator = lazy(() => import('./components/tools/finance/MarginCalculator'));
+const TdsCalculator = lazy(() => import('./components/tools/finance/TdsCalculator'));
+const PanGstinValidator = lazy(() => import('./components/tools/finance/PanGstinValidator'));
+const NumberToWords = lazy(() => import('./components/tools/finance/NumberToWords'));
+const DepreciationCalculator = lazy(() => import('./components/tools/finance/DepreciationCalculator'));
+const CapitalGainsCalculator = lazy(() => import('./components/tools/finance/CapitalGainsCalculator'));
+const BreakEvenAnalysis = lazy(() => import('./components/tools/finance/BreakEvenAnalysis'));
+const CashFlowForecaster = lazy(() => import('./components/tools/finance/CashFlowForecaster'));
+const FinancialRatioAnalyzer = lazy(() => import('./components/tools/finance/FinancialRatioAnalyzer'));
+const ComplianceDateCalculator = lazy(() => import('./components/tools/finance/ComplianceDateCalculator'));
 
 // ============================================
 // LAZY LOADED: Typing & Education Tools (9)
@@ -189,7 +199,7 @@ function App() {
         <Route path="/sitemap" element={<SitemapPage />} />
         <Route path="/seo-dashboard" element={<SeoDashboard />} />
 
-        {/* Financial Tools (12) */}
+        {/* Financial Tools (21) */}
         <Route path="/tools/finance/gst-calculator" element={<LazyRoute component={GstCalculator} />} />
         <Route path="/tools/finance/gst-invoice-generator" element={<LazyRoute component={GstInvoiceGenerator} />} />
         <Route path="/tools/finance/emi-calculator" element={<LazyRoute component={EmiCalculator} />} />
@@ -202,6 +212,15 @@ function App() {
         <Route path="/tools/finance/roi-calculator" element={<LazyRoute component={RoiCalculator} />} />
         <Route path="/tools/finance/currency-converter" element={<LazyRoute component={CurrencyConverter} />} />
         <Route path="/tools/finance/margin-calculator" element={<LazyRoute component={MarginCalculator} />} />
+        <Route path="/tools/finance/tds-calculator" element={<LazyRoute component={TdsCalculator} />} />
+        <Route path="/tools/finance/pan-gstin-validator" element={<LazyRoute component={PanGstinValidator} />} />
+        <Route path="/tools/finance/number-to-words" element={<LazyRoute component={NumberToWords} />} />
+        <Route path="/tools/finance/depreciation-calculator" element={<LazyRoute component={DepreciationCalculator} />} />
+        <Route path="/tools/finance/capital-gains-calculator" element={<LazyRoute component={CapitalGainsCalculator} />} />
+        <Route path="/tools/finance/break-even-analysis" element={<LazyRoute component={BreakEvenAnalysis} />} />
+        <Route path="/tools/finance/cash-flow-forecaster" element={<LazyRoute component={CashFlowForecaster} />} />
+        <Route path="/tools/finance/financial-ratio-analyzer" element={<LazyRoute component={FinancialRatioAnalyzer} />} />
+        <Route path="/tools/finance/compliance-date-calculator" element={<LazyRoute component={ComplianceDateCalculator} />} />
 
         {/* Typing & Education Tools (9) */}
         <Route path="/tools/typing/typing-test" element={<LazyRoute component={TypingTest} />} />

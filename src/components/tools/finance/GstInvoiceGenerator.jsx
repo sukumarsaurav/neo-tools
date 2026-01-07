@@ -669,8 +669,53 @@ const GstInvoiceGenerator = () => {
         }
 
         @media print {
+          /* Hide everything outside the invoice */
+          body * {
+            visibility: hidden;
+          }
+          
+          /* Show the invoice document and its contents */
+          .invoice-document,
+          .invoice-document * {
+            visibility: visible;
+          }
+          
+          /* Position the invoice at the top-left for proper printing */
+          .invoice-document {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: white !important;
+            padding: 20mm !important;
+            margin: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+          }
+          
+          /* Hide action buttons */
           .action-buttons {
-            display: none;
+            display: none !important;
+          }
+          
+          /* Hide the invoice preview wrapper styling */
+          .invoice-preview {
+            position: static;
+            max-width: none;
+            margin: 0;
+          }
+          
+          /* Ensure proper colors for printing */
+          .invoice-table th {
+            background: #2b4c7e !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+          
+          .party-box {
+            background: #f5f5f5 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
           }
         }
 

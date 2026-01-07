@@ -7,21 +7,49 @@ const GstInvoiceGenerator = () => {
         invoiceNo: '',
         invoiceDate: new Date().toISOString().split('T')[0],
         dueDate: '',
+        sellerLogo: '',
         sellerName: '',
         sellerAddress: '',
         sellerGstin: '',
+        sellerEmail: '',
+        sellerPhone: '',
         buyerName: '',
         buyerAddress: '',
         buyerGstin: '',
+        buyerEmail: '',
+        buyerPhone: '',
         items: [{ description: '', hsn: '', quantity: 1, rate: 0, gstRate: 18 }],
         notes: ''
     });
     const [generatedInvoice, setGeneratedInvoice] = useState(null);
     const invoiceRef = useRef(null);
+    const fileInputRef = useRef(null);
 
     const relatedTools = toolsData.tools
         .filter(t => t.category === 'finance' && t.id !== 'gst-invoice-generator')
         .slice(0, 3);
+
+    const handleLogoUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 500 * 1024) {
+                alert('Logo file size should be less than 500KB');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setInvoiceData({ ...invoiceData, sellerLogo: reader.result });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeLogo = () => {
+        setInvoiceData({ ...invoiceData, sellerLogo: '' });
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    };
 
     const updateItem = (index, field, value) => {
         const newItems = [...invoiceData.items];
@@ -162,6 +190,41 @@ const GstInvoiceGenerator = () => {
         >
             {!generatedInvoice ? (
                 <div className="invoice-form">
+                    {/* Logo Upload Section */}
+                    <div className="form-section">
+                        <h3>Business Logo (Optional)</h3>
+                        <div className="logo-upload-section">
+                            {invoiceData.sellerLogo ? (
+                                <div className="logo-preview">
+                                    <img src={invoiceData.sellerLogo} alt="Business Logo" />
+                                    <button
+                                        type="button"
+                                        className="remove-logo-btn"
+                                        onClick={removeLogo}
+                                    >
+                                        ✕ Remove
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="logo-upload-box">
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        accept="image/png,image/jpeg,image/webp"
+                                        onChange={handleLogoUpload}
+                                        id="logo-upload"
+                                        className="file-input-hidden"
+                                    />
+                                    <label htmlFor="logo-upload" className="logo-upload-label">
+                                        <span className="upload-icon">📁</span>
+                                        <span>Click to upload logo</span>
+                                        <span className="upload-hint">PNG, JPG or WebP (max 500KB)</span>
+                                    </label>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     {/* Invoice Details */}
                     <div className="form-section">
                         <h3>Invoice Details</h3>
@@ -233,6 +296,28 @@ const GstInvoiceGenerator = () => {
                                 rows="2"
                             />
                         </div>
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label className="form-label">Email</label>
+                                <input
+                                    type="email"
+                                    className="form-input"
+                                    value={invoiceData.sellerEmail}
+                                    onChange={(e) => setInvoiceData({ ...invoiceData, sellerEmail: e.target.value })}
+                                    placeholder="seller@example.com"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Phone</label>
+                                <input
+                                    type="tel"
+                                    className="form-input"
+                                    value={invoiceData.sellerPhone}
+                                    onChange={(e) => setInvoiceData({ ...invoiceData, sellerPhone: e.target.value })}
+                                    placeholder="+91 98765 43210"
+                                />
+                            </div>
+                        </div>
                     </div>
 
                     {/* Buyer Details */}
@@ -270,6 +355,28 @@ const GstInvoiceGenerator = () => {
                                 placeholder="Complete address with PIN code"
                                 rows="2"
                             />
+                        </div>
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label className="form-label">Email</label>
+                                <input
+                                    type="email"
+                                    className="form-input"
+                                    value={invoiceData.buyerEmail}
+                                    onChange={(e) => setInvoiceData({ ...invoiceData, buyerEmail: e.target.value })}
+                                    placeholder="buyer@example.com"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Phone</label>
+                                <input
+                                    type="tel"
+                                    className="form-input"
+                                    value={invoiceData.buyerPhone}
+                                    onChange={(e) => setInvoiceData({ ...invoiceData, buyerPhone: e.target.value })}
+                                    placeholder="+91 98765 43210"
+                                />
+                            </div>
                         </div>
                     </div>
 
@@ -358,6 +465,18 @@ const GstInvoiceGenerator = () => {
                         </button>
                     </div>
 
+                    {/* Notes */}
+                    <div className="form-section">
+                        <h3>Notes (Optional)</h3>
+                        <textarea
+                            className="form-textarea"
+                            value={invoiceData.notes}
+                            onChange={(e) => setInvoiceData({ ...invoiceData, notes: e.target.value })}
+                            placeholder="Additional notes or payment terms..."
+                            rows="3"
+                        />
+                    </div>
+
                     {/* Totals Preview */}
                     <div className="totals-preview">
                         <div className="total-row">
@@ -384,9 +503,21 @@ const GstInvoiceGenerator = () => {
                 </div>
             ) : (
                 <div className="invoice-preview" ref={invoiceRef}>
-                    <div className="invoice-document">
+                    <div className="invoice-document" id="invoice-to-print">
+                        {/* Invoice Header with Logo */}
                         <div className="invoice-header">
-                            <h2>TAX INVOICE</h2>
+                            <div className="header-left">
+                                {generatedInvoice.sellerLogo ? (
+                                    <img
+                                        src={generatedInvoice.sellerLogo}
+                                        alt="Business Logo"
+                                        className="invoice-logo"
+                                    />
+                                ) : (
+                                    <h2 className="tax-invoice-title">TAX INVOICE</h2>
+                                )}
+                                <p className="seller-name-header">{generatedInvoice.sellerName}</p>
+                            </div>
                             <div className="invoice-meta">
                                 <p><strong>Invoice No:</strong> {generatedInvoice.invoiceNo}</p>
                                 <p><strong>Date:</strong> {generatedInvoice.invoiceDate}</p>
@@ -394,21 +525,27 @@ const GstInvoiceGenerator = () => {
                             </div>
                         </div>
 
+                        {/* Parties Section */}
                         <div className="parties-section">
                             <div className="party-box">
                                 <h4>From (Seller)</h4>
                                 <p><strong>{generatedInvoice.sellerName}</strong></p>
                                 {generatedInvoice.sellerAddress && <p>{generatedInvoice.sellerAddress}</p>}
                                 {generatedInvoice.sellerGstin && <p>GSTIN: {generatedInvoice.sellerGstin}</p>}
+                                {generatedInvoice.sellerEmail && <p>📧 {generatedInvoice.sellerEmail}</p>}
+                                {generatedInvoice.sellerPhone && <p>📞 {generatedInvoice.sellerPhone}</p>}
                             </div>
                             <div className="party-box">
                                 <h4>To (Buyer)</h4>
                                 <p><strong>{generatedInvoice.buyerName}</strong></p>
                                 {generatedInvoice.buyerAddress && <p>{generatedInvoice.buyerAddress}</p>}
                                 {generatedInvoice.buyerGstin && <p>GSTIN: {generatedInvoice.buyerGstin}</p>}
+                                {generatedInvoice.buyerEmail && <p>📧 {generatedInvoice.buyerEmail}</p>}
+                                {generatedInvoice.buyerPhone && <p>📞 {generatedInvoice.buyerPhone}</p>}
                             </div>
                         </div>
 
+                        {/* Items Table */}
                         <table className="invoice-table">
                             <thead>
                                 <tr>
@@ -436,6 +573,7 @@ const GstInvoiceGenerator = () => {
                             </tbody>
                         </table>
 
+                        {/* Totals */}
                         <div className="invoice-totals">
                             <div className="total-line">
                                 <span>Subtotal:</span>
@@ -455,14 +593,26 @@ const GstInvoiceGenerator = () => {
                             </div>
                         </div>
 
+                        {/* Notes */}
+                        {generatedInvoice.notes && (
+                            <div className="invoice-notes">
+                                <strong>Notes:</strong>
+                                <p>{generatedInvoice.notes}</p>
+                            </div>
+                        )}
+
+                        {/* Footer */}
                         <div className="invoice-footer">
-                            <p>This is a computer-generated invoice.</p>
+                            <div className="signature-section">
+                                <p>Authorized Signature: _______________________</p>
+                            </div>
+                            <p className="footer-note">This is a computer-generated invoice.</p>
                         </div>
                     </div>
 
                     <div className="action-buttons">
                         <button className="btn btn-primary" onClick={printInvoice}>
-                            🖨️ Print Invoice
+                            🖨️ Print / Download PDF
                         </button>
                         <button className="btn btn-secondary" onClick={() => setGeneratedInvoice(null)}>
                             ← Edit Invoice
@@ -506,6 +656,77 @@ const GstInvoiceGenerator = () => {
           border-radius: var(--radius);
           font-family: inherit;
           resize: vertical;
+          background: var(--bg-primary);
+          color: var(--text-primary);
+        }
+
+        /* Logo Upload Styles */
+        .logo-upload-section {
+          max-width: 300px;
+        }
+
+        .logo-preview {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-md);
+          padding: var(--spacing-md);
+          background: var(--bg-primary);
+          border-radius: var(--radius);
+          border: 2px dashed var(--platinum);
+        }
+
+        .logo-preview img {
+          max-width: 150px;
+          max-height: 60px;
+          object-fit: contain;
+        }
+
+        .remove-logo-btn {
+          background: var(--error);
+          color: white;
+          border: none;
+          padding: var(--spacing-xs) var(--spacing-sm);
+          border-radius: var(--radius);
+          cursor: pointer;
+          font-size: var(--text-sm);
+        }
+
+        .remove-logo-btn:hover {
+          opacity: 0.9;
+        }
+
+        .logo-upload-box {
+          border: 2px dashed var(--platinum);
+          border-radius: var(--radius);
+          padding: var(--spacing-lg);
+          text-align: center;
+          cursor: pointer;
+          transition: border-color 0.2s ease;
+        }
+
+        .logo-upload-box:hover {
+          border-color: var(--yinmn-blue);
+        }
+
+        .file-input-hidden {
+          display: none;
+        }
+
+        .logo-upload-label {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: var(--spacing-xs);
+          cursor: pointer;
+        }
+
+        .upload-icon {
+          font-size: 2rem;
+        }
+
+        .upload-hint {
+          font-size: var(--text-sm);
+          color: var(--text-muted);
         }
 
         .item-row {
@@ -561,6 +782,7 @@ const GstInvoiceGenerator = () => {
           font-size: var(--text-lg);
         }
 
+        /* Invoice Preview - A4 Format */
         .invoice-preview {
           max-width: 800px;
           margin: 0 auto;
@@ -568,28 +790,60 @@ const GstInvoiceGenerator = () => {
 
         .invoice-document {
           background: white;
-          padding: var(--spacing-xl);
+          color: #333;
+          padding: 40px;
           border: 1px solid var(--platinum);
           border-radius: var(--radius);
           margin-bottom: var(--spacing-lg);
+          /* A4 aspect ratio: 1:1.414 */
+          width: 100%;
+          max-width: 794px;
+          min-height: 1123px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         .invoice-header {
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
-          border-bottom: 2px solid var(--yinmn-blue);
-          padding-bottom: var(--spacing-md);
+          border-bottom: 3px solid #2b4c7e;
+          padding-bottom: var(--spacing-lg);
           margin-bottom: var(--spacing-lg);
         }
 
-        .invoice-header h2 {
-          color: var(--yinmn-blue);
+        .header-left {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-sm);
+        }
+
+        .invoice-logo {
+          max-width: 180px;
+          max-height: 70px;
+          object-fit: contain;
+        }
+
+        .tax-invoice-title {
+          color: #2b4c7e;
+          font-size: 1.8rem;
+          margin: 0;
+        }
+
+        .seller-name-header {
+          font-size: var(--text-lg);
+          font-weight: 600;
+          color: #555;
+          margin: 0;
+        }
+
+        .invoice-meta {
+          text-align: right;
         }
 
         .invoice-meta p {
-          margin: 0;
+          margin: 4px 0;
           font-size: var(--text-sm);
+          color: #555;
         }
 
         .parties-section {
@@ -600,66 +854,119 @@ const GstInvoiceGenerator = () => {
         }
 
         .party-box {
-          background: var(--bg-secondary);
+          background: #f8f9fa;
           padding: var(--spacing-md);
           border-radius: var(--radius);
+          border-left: 4px solid #2b4c7e;
         }
 
         .party-box h4 {
-          color: var(--text-muted);
+          color: #2b4c7e;
           font-size: var(--text-sm);
+          text-transform: uppercase;
           margin-bottom: var(--spacing-sm);
+          letter-spacing: 0.5px;
         }
 
         .party-box p {
-          margin: var(--spacing-xs) 0;
+          margin: 4px 0;
           font-size: var(--text-sm);
+          color: #333;
         }
 
         .invoice-table {
           width: 100%;
           margin-bottom: var(--spacing-lg);
+          border-collapse: collapse;
         }
 
         .invoice-table th,
         .invoice-table td {
-          padding: var(--spacing-sm);
+          padding: 12px 10px;
           text-align: left;
-          border-bottom: 1px solid var(--platinum);
+          border-bottom: 1px solid #dee2e6;
         }
 
         .invoice-table th {
-          background: var(--yinmn-blue);
+          background: #2b4c7e;
           color: white;
+          font-weight: 600;
+          font-size: var(--text-sm);
+        }
+
+        .invoice-table td {
+          font-size: var(--text-sm);
+          color: #333;
+        }
+
+        .invoice-table tbody tr:nth-child(even) {
+          background: #f8f9fa;
         }
 
         .invoice-totals {
           max-width: 300px;
           margin-left: auto;
+          background: #f8f9fa;
+          padding: var(--spacing-md);
+          border-radius: var(--radius);
         }
 
         .total-line {
           display: flex;
           justify-content: space-between;
-          padding: var(--spacing-xs) 0;
+          padding: 8px 0;
+          font-size: var(--text-sm);
+          color: #333;
         }
 
         .total-line.grand {
-          border-top: 2px solid var(--platinum);
+          border-top: 2px solid #2b4c7e;
           margin-top: var(--spacing-sm);
           padding-top: var(--spacing-sm);
           font-weight: 700;
           font-size: var(--text-lg);
-          color: var(--yinmn-blue);
+          color: #2b4c7e;
+        }
+
+        .invoice-notes {
+          margin-top: var(--spacing-lg);
+          padding: var(--spacing-md);
+          background: #fff8e1;
+          border-radius: var(--radius);
+          border-left: 4px solid #ffc107;
+        }
+
+        .invoice-notes strong {
+          color: #333;
+        }
+
+        .invoice-notes p {
+          margin: 8px 0 0 0;
+          color: #555;
+          font-size: var(--text-sm);
         }
 
         .invoice-footer {
-          margin-top: var(--spacing-xl);
-          padding-top: var(--spacing-md);
-          border-top: 1px solid var(--platinum);
-          text-align: center;
-          color: var(--text-muted);
+          margin-top: auto;
+          padding-top: var(--spacing-xl);
+        }
+
+        .signature-section {
+          margin-bottom: var(--spacing-lg);
+          text-align: right;
+        }
+
+        .signature-section p {
+          color: #555;
           font-size: var(--text-sm);
+        }
+
+        .footer-note {
+          text-align: center;
+          color: #999;
+          font-size: var(--text-xs);
+          border-top: 1px solid #dee2e6;
+          padding-top: var(--spacing-md);
         }
 
         .action-buttons {
@@ -668,44 +975,53 @@ const GstInvoiceGenerator = () => {
           justify-content: center;
         }
 
+        /* Print Styles - A4 Format */
         @media print {
-          /* Hide everything outside the invoice */
+          @page {
+            size: A4;
+            margin: 10mm;
+          }
+
+          /* Hide everything */
           body * {
             visibility: hidden;
           }
           
-          /* Show the invoice document and its contents */
-          .invoice-document,
-          .invoice-document * {
+          /* Show only invoice document */
+          #invoice-to-print,
+          #invoice-to-print * {
             visibility: visible;
           }
           
-          /* Position the invoice at the top-left for proper printing */
-          .invoice-document {
+          /* Position and size for A4 */
+          #invoice-to-print {
             position: absolute;
             left: 0;
             top: 0;
             width: 100%;
+            max-width: none;
+            min-height: auto;
             background: white !important;
-            padding: 20mm !important;
+            padding: 10mm !important;
             margin: 0 !important;
             border: none !important;
             box-shadow: none !important;
+            border-radius: 0 !important;
           }
           
           /* Hide action buttons */
           .action-buttons {
             display: none !important;
           }
-          
-          /* Hide the invoice preview wrapper styling */
+
+          /* Reset invoice preview */
           .invoice-preview {
             position: static;
             max-width: none;
             margin: 0;
           }
           
-          /* Ensure proper colors for printing */
+          /* Ensure colors print */
           .invoice-table th {
             background: #2b4c7e !important;
             -webkit-print-color-adjust: exact;
@@ -713,9 +1029,32 @@ const GstInvoiceGenerator = () => {
           }
           
           .party-box {
-            background: #f5f5f5 !important;
+            background: #f8f9fa !important;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
+          }
+
+          .invoice-totals {
+            background: #f8f9fa !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+
+          .invoice-notes {
+            background: #fff8e1 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+
+          .invoice-table tbody tr:nth-child(even) {
+            background: #f8f9fa !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+
+          /* Prevent page breaks */
+          .invoice-document {
+            page-break-inside: avoid;
           }
         }
 
@@ -726,6 +1065,20 @@ const GstInvoiceGenerator = () => {
 
           .parties-section {
             grid-template-columns: 1fr;
+          }
+
+          .invoice-document {
+            padding: 20px;
+            min-height: auto;
+          }
+
+          .invoice-header {
+            flex-direction: column;
+            gap: var(--spacing-md);
+          }
+
+          .invoice-meta {
+            text-align: left;
           }
         }
       `}</style>

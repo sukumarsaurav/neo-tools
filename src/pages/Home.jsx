@@ -8,7 +8,29 @@ import toolsData from '../data/tools.json';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [activeCategory, setActiveCategory] = useState('all');
+
+  // Handle search input with autocomplete suggestions
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query.length > 0) {
+      const suggestions = toolsData.tools.filter(tool =>
+        tool.name.toLowerCase().startsWith(query.toLowerCase()) ||
+        tool.name.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 6);
+      setSearchSuggestions(suggestions);
+    } else {
+      setSearchSuggestions([]);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
+    setSearchSuggestions([]);
+  };
 
   const filteredTools = useMemo(() => {
     let tools = toolsData.tools;
@@ -70,9 +92,22 @@ const Home = () => {
                 type="text"
                 placeholder="Search for tools..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
                 className="search-input"
               />
+              {searchSuggestions.length > 0 && (
+                <div className="hero-search-suggestions">
+                  {searchSuggestions.map(tool => (
+                    <Link key={tool.id} to={tool.path} onClick={clearSearch} className="suggestion-item">
+                      <span className="suggestion-icon">{tool.icon}</span>
+                      <div className="suggestion-content">
+                        <span className="suggestion-name">{tool.name}</span>
+                        <span className="suggestion-desc">{tool.description}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="hero-stats">
@@ -242,6 +277,69 @@ const Home = () => {
         .hero-search {
           max-width: 500px;
           margin: 0 auto var(--spacing-xl);
+          position: relative;
+        }
+
+        .hero-search .search-input {
+          width: 100%;
+        }
+
+        .hero-search-suggestions {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: var(--bg-primary);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-xl);
+          margin-top: var(--spacing-sm);
+          max-height: 400px;
+          overflow-y: auto;
+          z-index: 100;
+        }
+
+        .suggestion-item {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-md);
+          padding: var(--spacing-md);
+          text-decoration: none;
+          transition: background var(--transition);
+          border-bottom: 1px solid var(--platinum);
+        }
+
+        .suggestion-item:last-child {
+          border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+          background: var(--bg-secondary);
+        }
+
+        .suggestion-icon {
+          font-size: var(--text-2xl);
+          flex-shrink: 0;
+        }
+
+        .suggestion-content {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .suggestion-name {
+          display: block;
+          font-weight: 600;
+          color: var(--text-dark);
+          margin-bottom: 2px;
+        }
+
+        .suggestion-desc {
+          display: block;
+          font-size: var(--text-sm);
+          color: var(--text-muted);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .hero-stats {

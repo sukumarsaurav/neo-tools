@@ -510,6 +510,18 @@ a:hover {
   color: var(--text-light);
 }
 
+/* Dark Mode Tool Card Enhancement */
+[data-theme="dark"] .tool-card {
+  background: #242449;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .tool-card:hover {
+  border-color: rgba(252, 122, 30, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
 /* Ad Box Styles (AdSense Safe) */
 .ad-box {
   margin: var(--ad-margin) 0;
